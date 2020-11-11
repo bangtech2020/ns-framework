@@ -19,7 +19,9 @@
         "ext-json": "*",
         "ext-swoole": ">=4.4",
         "php-di/php-di": "^6.2",
-        "inhere/console": "^3.1"
+        "inhere/console": "^3.1",
+        "symfony/finder": "4.*",
+        "nikic/fast-route": "2.0.x-dev"
     },
     "require-dev": {
         "humbug/box": "^3.8",
