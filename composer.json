@@ -1,0 +1,44 @@
+{
+    "name": "bangtech/ns",
+    "description": "NS development Framework,all plug-ins are loaded by Phar",
+    "type": "project",
+    "license": "GPL-3.0-only",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "bangtech",
+            "email": "system@bangtech.cn"
+        },
+        {
+            "name": "hepeichun",
+            "email": "hepc@bangtech.cn"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*",
+        "ext-swoole": ">=4.4",
+        "php-di/php-di": "^6.2",
+        "inhere/console": "^3.1"
+    },
+    "require-dev": {
+        "humbug/box": "^3.8",
+        "swoole/ide-helper": "^4.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "bootstrap\\" : "bootstrap/",
+            "extend\\" : "extend/",
+            "module\\": "module/"
+        },
+        "files": [
+            "functions/common.php"
+        ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    }
+}
