@@ -5,11 +5,12 @@
     "bin",
     "bootstrap",
     "brand",
+    "command",
     "config",
     "extend",
     "functions",
     "modules",
-    "public",
+    "public"
   ],
   "files-bin": [
     ".env.default"
