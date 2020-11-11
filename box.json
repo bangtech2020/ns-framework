@@ -1,6 +1,6 @@
 {
-  "main": "bin/esn.php",
-  "output": "phar/esn.phar",
+  "main": "bin/ns.php",
+  "output": "build/ns.phar",
   "directories": [
     "bin",
     "bootstrap",
@@ -10,7 +10,8 @@
     "extend",
     "functions",
     "modules",
-    "public"
+    "public",
+    "route"
   ],
   "files-bin": [
     ".env.default"

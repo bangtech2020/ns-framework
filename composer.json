@@ -32,7 +32,8 @@
             "bootstrap\\" : "bootstrap/",
             "command\\" : "command/",
             "extend\\" : "extend/",
-            "module\\": "module/"
+            "module\\": "module/",
+            "route\\": "route/"
         },
         "files": [
             "functions/common.php"
