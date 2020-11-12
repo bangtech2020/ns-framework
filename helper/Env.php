@@ -1,37 +1,35 @@
 <?php
+
 declare(strict_types=1);
 
 namespace helper;
 
-
 use interfaces\ConfigInterface;
 
 /**
- * Class Config
+ * Class Env
  * @package system\app
  */
-class Config implements ConfigInterface
+class Env implements ConfigInterface
 {
+    /**
+     * @var array
+     */
+    protected static $env = [];
 
     /**
-     * @var array|null
+     * Env constructor.
+     * @param string $path
      */
-    protected static $config = [];
-
-    /**
-     * Config constructor.
-     * @param string $dir
-     * @param string $ext
-     */
-    private function __construct($dir = '', $ext = '.php')
+    public function __construct(string $path)
     {
-        self::$config = $this->getDir($dir,$ext);
+        self::$env = $this->arraykeyToLower($this->loadEnv($path));
         return self::class;
     }
 
-    public static function __make($path, $ext)
+    public static function __make($path)
     {
-        return new static($path, $ext);
+        return new static($path);
     }
 
     /**
@@ -41,6 +39,7 @@ class Config implements ConfigInterface
      */
     public static function get($name, $default = null)
     {
+        $name = strtolower($name);
         return self::getVar($name, $default);
     }
 
@@ -51,6 +50,7 @@ class Config implements ConfigInterface
      */
     public static function set($name, $value)
     {
+        $name = strtolower($name);
         return self::setVar($name, $value);
     }
 
@@ -61,7 +61,7 @@ class Config implements ConfigInterface
      */
     private static function getVar($name, $default = null)
     {
-        $variable = self::$config;
+        $variable = self::$env;
         if ($name == '*') {
             return $variable;
         }
@@ -78,13 +78,19 @@ class Config implements ConfigInterface
      */
     private static function getIndex($variable, $names, $default = null)
     {
+        //如果键已经被全部加载进去后直接返回值
         if (count($names) == 0) {
             if (!isset($variable)) {
                 $variable = $default;
             }
             return $variable;
         }
-        return self::getIndex($variable[array_shift($names)], $names, $default);
+        $index = array_shift($names);
+        //如果数组里面不存在对应的键则直接返货默认值
+        if(!isset($variable[$index])){
+            return $default;
+        }
+        return self::getIndex($variable[$index], $names, $default);
     }
 
     /**
@@ -96,11 +102,11 @@ class Config implements ConfigInterface
     {
 
         if ($name == '*') {
-            return self::$config = $value;
+            return self::$env = $value;
         }
 
         $names = explode('.', $name);
-        return self::setIndex(self::$config, $names, $value);
+        return self::setIndex(self::$env, $names, $value);
     }
 
     /**
@@ -118,31 +124,30 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $dir
-     * @param string $ext
+     * @return array|false|null
+     */
+    public function loadEnv($file)
+    {
+        if (is_file($file)){
+            return $this->env = parse_ini_file($file, true);
+        }else{
+            return $this->env = [];
+        }
+    }
+
+    /**
+     * 多维数组键转小写
+     * @param $arr
      * @return array
      */
-    private function getDir(string $dir,string $ext = 'php')
+    protected function arraykeyToLower($arr)
     {
-        $dirs = scandir($dir);
-        $config = [];
-        foreach ($dirs as $key => $file) {
-            $path = $dir . '/' . $file;
-            if ($file != '.' && $file != '..' && preg_match("/.*\.{$ext}$/", $file)) {
-                if (is_dir($path)) {
-                    $config[$file] = $this->getDir($path);
-                } elseif (is_file($path)) {
-                    $tmp = include $path;
-                    if (is_array($tmp)) {
-                        [$index] = explode('.', $file);
-                        if (!(isset($config[$index]) && is_array($config[$index]))) {
-                            $config[$index] = [];
-                        }
-                        $config[$index] = array_merge_recursive($config[$index], $tmp);
-                    }
-                }
+        $arr = array_change_key_case($arr,CASE_LOWER);
+        foreach ($arr as $key => &$value) {
+            if (is_array($value)){
+                $value = $this->arraykeyToLower($value);
             }
         }
-        return $config;
+        return $arr;
     }
 }

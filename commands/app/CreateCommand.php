@@ -27,7 +27,12 @@ class CreateCommand extends CommandInterface
         // TODO: Implement execute() method.
         $output->writeln("应用创建");
         //获得应用名称
-        $appName        = $this->read('Enter the application name: ');
+        $appName = $this->read('Enter the application name: ');
+
+        while (!$appName){
+            $appName = $this->read('Please!!! Enter the application name: ');
+        }
+
         $has_extension  = $this->confirm('Is there an extension? ');
         $has_plugin     = $this->confirm('Is there a plug-in? ');
         $has_command    = $this->confirm('Is there a command? ');

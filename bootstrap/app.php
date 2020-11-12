@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace bootstrap;
 
 use helper\Config;
+use helper\Env;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
@@ -36,6 +37,7 @@ class app
 
         date_default_timezone_set('Asia/Shanghai');
         $this->config['text_logo'] = file_get_contents($this->config['base_path'] . '/brand/ns_logo.text');
+        Env::__make(ROOT_PATH.'/.env');
         Config::__make(BASE_PATH.'/config','php');
     }
 
