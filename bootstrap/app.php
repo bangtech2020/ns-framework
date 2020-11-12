@@ -7,6 +7,7 @@ namespace bootstrap;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
+use interfaces\Console;
 use Phar;
 
 class app
@@ -20,20 +21,20 @@ class app
 
     public function __construct()
     {
-        ! defined('BASE_PATH') && define('BASE_PATH', dirname(__DIR__, 1));
+        !defined('BASE_PATH') && define('BASE_PATH', dirname(__DIR__, 1));
         //确定是否在Phar包里面
-        if (preg_match('/^phar:\/\/.*/',__FILE__)){
-            ! defined('ROOT_PATH') && define('ROOT_PATH', dirname(Phar::running(false), 1));
-            ! defined('HAS_DEV') && define('HAS_DEV', false);
-        }else{
-            ! defined('ROOT_PATH') && define('ROOT_PATH', dirname(__DIR__, 1));
-            ! defined('HAS_DEV') && define('HAS_DEV', true);
+        if (preg_match('/^phar:\/\/.*/', __FILE__)) {
+            !defined('ROOT_PATH') && define('ROOT_PATH', dirname(Phar::running(false), 1));
+            !defined('HAS_DEV') && define('HAS_DEV', false);
+        } else {
+            !defined('ROOT_PATH') && define('ROOT_PATH', dirname(__DIR__, 1));
+            !defined('HAS_DEV') && define('HAS_DEV', true);
         }
         $this->config['base_path'] = BASE_PATH;
         $this->config['root_path'] = ROOT_PATH;
 
         date_default_timezone_set('Asia/Shanghai');
-        $this->config['text_logo'] = file_get_contents($this->config['base_path'].'/brand/ns_logo.text');
+        $this->config['text_logo'] = file_get_contents($this->config['base_path'] . '/brand/ns_logo.text');
 
     }
 
@@ -43,6 +44,7 @@ class app
         $meta = [
             'name' => 'NS Framework',
             'version' => get_git(),
+            'description' => 'NS development Framework,all plug-ins are loaded by Phar',
             'rootPath' => dirname(__DIR__)
         ];
 
@@ -53,12 +55,19 @@ class app
         $app = new Application($meta, $input, $output);
         $app->setLogo($this->getTextLogo(), 'success');
 
-        // 注册命令
-        $app->command('demo', function (Input $in, Output $out) {
-            $cmd = $in->getCommand();
+        //注册系统命令集
+        $commands = include ROOT_PATH . '/config/commands.php';
 
-            $out->info('hello, this is a test command: ' . $cmd);
-        });
+        foreach ($commands as $key => $command) {
+            [$class, $type] = $command;
+            if ($type === Console::HAS_GROUP) {
+                $app->controller($class);
+            } else {
+                $app->command($class);
+            }
+
+        }
+
 
         $app->run();
     }

@@ -30,8 +30,9 @@
     "autoload": {
         "psr-4": {
             "bootstrap\\" : "bootstrap/",
-            "command\\" : "command/",
+            "commands\\" : "commands/",
             "extend\\" : "extend/",
+            "interfaces\\": "interfaces/",
             "module\\": "module/",
             "route\\": "route/"
         },
