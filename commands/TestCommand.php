@@ -4,7 +4,7 @@ namespace commands;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-use interfaces\Console\CommandInterface;
+use helper\Console\CommandInterface;
 
 /**
  * Class TestCommand

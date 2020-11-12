@@ -6,7 +6,7 @@ namespace commands\app;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-use interfaces\Console\CommandInterface;
+use helper\Console\CommandInterface;
 
 class PackCommand extends CommandInterface
 {

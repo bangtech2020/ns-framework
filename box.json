@@ -9,6 +9,7 @@
     "config",
     "extend",
     "functions",
+    "helper",
     "interfaces",
     "module",
     "public",

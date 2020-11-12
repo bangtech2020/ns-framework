@@ -33,6 +33,7 @@
             "bootstrap\\" : "bootstrap/",
             "commands\\" : "commands/",
             "extend\\" : "extend/",
+            "helper\\": "helper/",
             "interfaces\\": "interfaces/",
             "module\\": "module/",
             "route\\": "route/"

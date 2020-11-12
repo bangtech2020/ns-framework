@@ -1,7 +1,7 @@
 <?php
 
 
-namespace interfaces;
+namespace helper;
 
 
 class Console

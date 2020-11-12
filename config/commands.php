@@ -1,8 +1,8 @@
 <?php
 return [
-    ['commands\\AppCommand',\interfaces\Console::HAS_COMMAND],
-    ['commands\\app\\CreateCommand',\interfaces\Console::HAS_COMMAND],
-    ['commands\\app\\PackCommand',\interfaces\Console::HAS_COMMAND],
-    ['commands\\DemoCommand',\interfaces\Console::HAS_COMMAND],
-    ['commands\\TestCommand',\interfaces\Console::HAS_COMMAND],
+    ['commands\\AppCommand',\helper\Console::HAS_COMMAND],
+    ['commands\\app\\CreateCommand',\helper\Console::HAS_COMMAND],
+    ['commands\\app\\PackCommand',\helper\Console::HAS_COMMAND],
+    ['commands\\DemoCommand',\helper\Console::HAS_COMMAND],
+    ['commands\\TestCommand',\helper\Console::HAS_COMMAND],
 ];

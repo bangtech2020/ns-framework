@@ -1,7 +1,7 @@
 <?php
 
 
-namespace interfaces\Console;
+namespace helper\Console;
 
 
 use Inhere\Console\Controller;

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace bootstrap;
 
+use helper\Config;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
-use interfaces\Console;
+use helper\Console;
 use Phar;
 
 class app
@@ -35,7 +36,7 @@ class app
 
         date_default_timezone_set('Asia/Shanghai');
         $this->config['text_logo'] = file_get_contents($this->config['base_path'] . '/brand/ns_logo.text');
-
+        Config::__make(BASE_PATH.'/config','php');
     }
 
     public function start()
@@ -56,7 +57,7 @@ class app
         $app->setLogo($this->getTextLogo(), 'success');
 
         //注册系统命令集
-        $commands = include BASE_PATH . '/config/commands.php';
+        $commands = Config::get('commands');
 
         foreach ($commands as $key => $command) {
             [$class, $type] = $command;
@@ -67,7 +68,6 @@ class app
             }
 
         }
-
 
         $app->run();
     }

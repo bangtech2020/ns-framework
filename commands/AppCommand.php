@@ -6,8 +6,8 @@ namespace commands;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\InputDefinition;
 use Inhere\Console\IO\Output;
-use interfaces\Console\CommandGroupInterface;
-use interfaces\Console\CommandInterface;
+use helper\Console\CommandGroupInterface;
+use helper\Console\CommandInterface;
 
 class AppCommand extends CommandInterface
 {
