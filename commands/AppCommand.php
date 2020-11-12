@@ -7,14 +7,19 @@ use Inhere\Console\IO\Input;
 use Inhere\Console\IO\InputDefinition;
 use Inhere\Console\IO\Output;
 use interfaces\Console\CommandGroupInterface;
+use interfaces\Console\CommandInterface;
 
-class AppCommand extends CommandGroupInterface
+class AppCommand extends CommandInterface
 {
+
     protected static $name = 'app';
     protected static $description = 'Application development tool';
 
-    public function addCommand()
+    /**
+     * @inheritDoc
+     */
+    protected function execute($input, $output)
     {
-        $this->write('hello, welcome!!');
+        $output->writeln("请使用app:create 创建应用 或者 app:pack 打包应用");
     }
 }

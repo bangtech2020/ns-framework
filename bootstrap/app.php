@@ -56,7 +56,7 @@ class app
         $app->setLogo($this->getTextLogo(), 'success');
 
         //注册系统命令集
-        $commands = include ROOT_PATH . '/config/commands.php';
+        $commands = include BASE_PATH . '/config/commands.php';
 
         foreach ($commands as $key => $command) {
             [$class, $type] = $command;
