@@ -4,5 +4,6 @@
   "description": "描述",
   "copyright": "",
   "plugin": "",
-  "extend": ""
+  "extend": "",
+  "route_prefix": "/demo"
 }

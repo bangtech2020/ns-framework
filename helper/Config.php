@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace helper;
 
 
+use ErrorException;
+use Inhere\Console\Exception\ConsoleException;
+use Inhere\Console\Exception\PromptException;
 use interfaces\ConfigInterface;
 
 /**
@@ -67,7 +70,25 @@ class Config implements ConfigInterface
         }
 
         $names = explode('.', $name);
-        return self::getIndex($variable, $names, $default);
+        try {
+            return self::getIndex($variable, $names, $default);
+        }catch (ErrorException $exception){
+            var_dump("报错");
+            return $default;
+        } catch (\Error $exception){
+            var_dump("报错");
+            return $default;
+        } catch (ConsoleException $exception){
+            var_dump("报错");
+            return $default;
+        } catch (PromptException $exception){
+            var_dump("报错");
+            return $default;
+        } catch (\Exception $exception){
+            var_dump("报错");
+            return $default;
+        }
+
     }
 
     /**
@@ -84,7 +105,9 @@ class Config implements ConfigInterface
             }
             return $variable;
         }
-        return self::getIndex($variable[array_shift($names)], $names, $default);
+        $tmp_name = array_shift($names);
+        if (!array_key_exists($tmp_name,$variable)) return $default;
+        return self::getIndex($variable[$tmp_name], $names, $default);
     }
 
     /**

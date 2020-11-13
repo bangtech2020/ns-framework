@@ -13,7 +13,6 @@ use helper\Console\CommandInterface;
 
 class AppCommand extends CommandInterface
 {
-
     protected static $name = 'app';
     protected static $description = 'Application development tool';
 

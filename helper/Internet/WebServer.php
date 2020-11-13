@@ -5,7 +5,7 @@ namespace helper\Internet;
 
 abstract class WebServer extends Server
 {
-    protected $on = ['Start', 'Shutdown', 'Connect', 'Close', 'Request'];
+    protected $on = ['Start', 'Shutdown', 'Connect', 'Close', 'Request', 'Task'];
 
     /**
      * @inheritDoc

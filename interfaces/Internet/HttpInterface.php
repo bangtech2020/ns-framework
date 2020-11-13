@@ -43,4 +43,13 @@ interface HttpInterface extends NetworkInterface
      * @param array $args
      */
     public function onRequest(Request $request, Response $response, ...$args);
+
+    /**
+     * @param Server $server
+     * @param int $task_id
+     * @param int $src_worker_id
+     * @param $data
+     * @return mixed
+     */
+    public function onTask(Server $server, int $task_id, int $src_worker_id, $data);
 }

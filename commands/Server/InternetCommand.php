@@ -23,7 +23,9 @@ class InternetCommand extends CommandInterface
     {
         parent::configure();
         $this->createDefinition()
-            ->setExample($this->parseCommentsVars('{script} {command} [start|reload|stop]'));
+            ->setExample($this->parseCommentsVars('{script} {command} [start|stop|reload|status]'))
+            ->addArgument('status',Input::ARG_REQUIRED,'action status [start|stop|reload|status]')
+        ;
     }
 
     /**

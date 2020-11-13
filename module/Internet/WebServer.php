@@ -49,4 +49,25 @@ class WebServer extends \helper\Internet\WebServer
     {
         // TODO: Implement onRequest() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function onTask(Server $server, int $task_id, int $src_worker_id, $data)
+    {
+        // TODO: Implement onTask() method.
+    }
+
+
+    public function initRoute()
+    {
+        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $routeCollector) {
+            $routeCollector->addGroup('/admin', function (\FastRoute\RouteCollector $r) {
+                $r->addRoute('GET', '/do-something', 'handler');
+                $r->addRoute('GET', '/do-another-thing', 'handler');
+                $r->addRoute('GET', '/do-something-else', 'handler');
+            });
+        });
+
+    }
 }
