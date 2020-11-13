@@ -1,7 +1,7 @@
 <?php
 
 
-namespace commands\app;
+namespace commands\App;
 
 
 use Inhere\Console\IO\Input;
