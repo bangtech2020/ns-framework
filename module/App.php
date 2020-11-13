@@ -46,14 +46,18 @@ class App
                     if (is_file(self::$path . '/' . $file)) {
                         if (preg_match($pattern, strtolower($file), $matches)) {
                             $appSetting = $this->getAppSetting(self::$path . '/' . $file,'app.json');
-                            $apps[strtolower($file)] = ['phar', $file ,self::$path . '/' . $file,$appSetting];
+                            if ($appSetting){
+                                $apps[strtolower($file)] = ['phar', $file ,self::$path . '/' . $file,$appSetting];
+                            }
                         }
                     }
 
                     //只有在开发模式下才进行加载文件夹
                     if (HAS_DEV && (HAS_DEV || $has_dev) && is_dir(self::$path . '/' . $file)) {
                         $appSetting = $this->getAppSetting(self::$path . '/' . $file,'app.json');
-                        $apps[strtolower($file)] = ['dir', $file ,self::$path . '/' . $file,$appSetting];
+                        if ($appSetting){
+                            $apps[strtolower($file)] = ['dir', $file ,self::$path . '/' . $file,$appSetting];
+                        }
                     }
                 }
                 //异常处理
@@ -66,8 +70,17 @@ class App
         self::$apps = $apps;
     }
 
+    /**
+     * 读取指定的文件配置
+     * @param $dirPath
+     * @param $fileName
+     * @return bool|mixed
+     */
     private function getAppSetting($dirPath, $fileName)
     {
+        if (!is_file("{$dirPath}/{$fileName}")){
+            return false;
+        }
         $content = file_get_contents("{$dirPath}/{$fileName}");
         return json_decode($content,true);
     }
