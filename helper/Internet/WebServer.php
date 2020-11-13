@@ -5,7 +5,8 @@ namespace helper\Internet;
 
 abstract class WebServer extends Server
 {
-    protected $on = ['Start', 'Shutdown', 'Connect', 'Close','Request'];
+    protected $on = ['Start', 'Shutdown', 'Connect', 'Close', 'Request'];
+
     /**
      * @inheritDoc
      */
@@ -16,7 +17,7 @@ abstract class WebServer extends Server
         $server->set($this->options);
 
         foreach ($this->on as $key => $value) {
-            if (method_exists($this,"on{$value}")){
+            if (method_exists($this, "on{$value}")) {
                 $server->on($value, [$this, "on{$value}"]);
             }
         }
