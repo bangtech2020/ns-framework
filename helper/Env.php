@@ -129,9 +129,9 @@ class Env implements ConfigInterface
     public function loadEnv($file)
     {
         if (is_file($file)){
-            return $this->env = parse_ini_file($file, true);
+            return parse_ini_file($file, true);
         }else{
-            return $this->env = [];
+            return [];
         }
     }
 

@@ -11,7 +11,7 @@ abstract class WebServer extends Server
      */
     public function start()
     {
-        $server = new \Swoole\Http\Server('0.0.0.0', 8008);
+        $server = new \Swoole\Http\Server($this->host, $this->port);
         //设置参数
         $server->set($this->options);
 

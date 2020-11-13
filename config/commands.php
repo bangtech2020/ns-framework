@@ -5,4 +5,5 @@ return [
     ['commands\\app\\PackCommand',\helper\Console::HAS_COMMAND],
     ['commands\\DemoCommand',\helper\Console::HAS_COMMAND],
     ['commands\\TestCommand',\helper\Console::HAS_COMMAND],
+    ['commands\\HomeCommand',\helper\Console::HAS_GROUP],
 ];
