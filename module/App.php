@@ -47,7 +47,7 @@ class App
                         if (preg_match($pattern, strtolower($file), $matches)) {
                             $appSetting = $this->getAppSetting(self::$path . '/' . $file,'app.json');
                             if ($appSetting){
-                                $apps[strtolower($file)] = ['phar', $file ,self::$path . '/' . $file,$appSetting];
+                                $apps[strtolower($file)] = ['type'=>'phar', 'file_name' => $file ,'path' => self::$path . '/' . $file,'setting' => $appSetting];
                             }
                         }
                     }
@@ -56,7 +56,7 @@ class App
                     if (HAS_DEV && (HAS_DEV || $has_dev) && is_dir(self::$path . '/' . $file)) {
                         $appSetting = $this->getAppSetting(self::$path . '/' . $file,'app.json');
                         if ($appSetting){
-                            $apps[strtolower($file)] = ['dir', $file ,self::$path . '/' . $file,$appSetting];
+                            $apps[strtolower($file)] = ['type'=>'dir', 'file_name' => $file ,'path' => self::$path . '/' . $file,'setting' => $appSetting];
                         }
                     }
                 }
