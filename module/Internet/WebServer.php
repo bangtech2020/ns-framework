@@ -48,6 +48,9 @@ class WebServer extends \helper\Internet\WebServer
     public function onRequest(Request $request, Response $response, ...$args)
     {
         // TODO: Implement onRequest() method.
+        $response->setStatusCode(404);
+        $response->end('404 - Not Found');
+        $response->close();
     }
 
     /**
