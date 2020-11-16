@@ -21,7 +21,7 @@ class Env implements ConfigInterface
      * Env constructor.
      * @param string $path
      */
-    public function __construct(string $path)
+    private function __construct(string $path)
     {
         self::$env = $this->arraykeyToLower($this->loadEnv($path));
         return self::class;

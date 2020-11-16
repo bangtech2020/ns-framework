@@ -12,8 +12,7 @@
     "helper",
     "interfaces",
     "module",
-    "public",
-    "route"
+    "public"
   ],
   "files-bin": [
     ".env.default"

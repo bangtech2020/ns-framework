@@ -1,14 +1,14 @@
 <?php
 
 
-namespace interfaces\Route;
+namespace interfaces\Request;
 
 
 /**
- * Interface HeaderInterfaces
+ * Interface CookieInterface
  * @package interfaces\Route
  */
-interface HeaderInterfaces extends ParamInterface
+interface CookieInterface extends ParamInterface
 {
     /**
      * @param $name

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace helper\Internet\Route;
+namespace helper\Request\Route;
 
 
 class Param

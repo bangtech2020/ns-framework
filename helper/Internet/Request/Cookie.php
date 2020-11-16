@@ -1,10 +1,10 @@
 <?php
 
 
-namespace helper\Internet\Route;
+namespace helper\Request\Route;
 
 
-use interfaces\Route\CookieInterface;
+use interfaces\Request\CookieInterface;
 
 class Cookie extends Param implements CookieInterface
 {

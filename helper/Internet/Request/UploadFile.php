@@ -1,10 +1,10 @@
 <?php
 
 
-namespace helper\Internet\Route;
+namespace helper\Request\Route;
 
 
-use interfaces\Route\UploadFileInterface;
+use interfaces\Request\UploadFileInterface;
 
 class UploadFile implements UploadFileInterface
 {

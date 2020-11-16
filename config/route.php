@@ -1,5 +1,11 @@
 <?php
 return [
-    'route' => [],
-    'group' => []
+    'route' => [
+        ['GET','/','User@aa']
+    ],
+    'group' => [
+        'user' => [
+
+        ]
+    ]
 ];

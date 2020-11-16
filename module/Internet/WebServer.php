@@ -4,6 +4,11 @@
 namespace module\Internet;
 
 
+use helper\Request\Route\Cookie;
+use helper\Request\Route\Get;
+use helper\Request\Route\Header;
+use helper\Request\Route\Post;
+use helper\Request\Route\UploadFile;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Server;
@@ -47,10 +52,49 @@ class WebServer extends \helper\Internet\WebServer
      */
     public function onRequest(Request $request, Response $response, ...$args)
     {
-        // TODO: Implement onRequest() method.
-        $response->setStatusCode(404);
-        $response->end('404 - Not Found');
+
+        try {
+            $header = $request->header?:[];
+            $server = $request->server?:[];
+            $cookie = $request->cookie?:[];
+            $get = $request->get?:[];
+            $post = $request->post?:[];
+
+            new \helper\Internet\Request(
+                $request->server['request_method'],
+                $request->server['request_uri'],
+                new Header($header),
+                new \helper\Request\Route\Server($server),
+                new Cookie($cookie),
+                new Get($get),
+                new Post($post),
+                $this->getUploadFile($request->files));
+        }catch (\ErrorException $exception){
+            $response->setStatusCode(500);
+        }catch (\Error $exception){
+            $response->setStatusCode(500);
+        }catch (\Exception $exception){
+            $response->setStatusCode(500);
+        }
         $response->close();
+    }
+
+    private function getUploadFile($files)
+    {
+        $name = '';
+        $type = '';
+        $tmp_name = '';
+        $error = '';
+        $size = '';
+
+        if ($files){
+            $name = $files['name'];
+            $type = $files['type'];
+            $tmp_name = $files['tmp_name'];
+            $error = $files['error'];
+            $size = $files['size'];
+        }
+        return new UploadFile($name,$type,$tmp_name,$error,$size);
     }
 
     /**
@@ -59,18 +103,5 @@ class WebServer extends \helper\Internet\WebServer
     public function onTask(Server $server, int $task_id, int $src_worker_id, $data)
     {
         // TODO: Implement onTask() method.
-    }
-
-
-    public function initRoute()
-    {
-        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $routeCollector) {
-            $routeCollector->addGroup('/admin', function (\FastRoute\RouteCollector $r) {
-                $r->addRoute('GET', '/do-something', 'handler');
-                $r->addRoute('GET', '/do-another-thing', 'handler');
-                $r->addRoute('GET', '/do-something-else', 'handler');
-            });
-        });
-
     }
 }

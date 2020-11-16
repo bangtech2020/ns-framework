@@ -1,7 +1,7 @@
 <?php
 
 
-namespace interfaces\Route;
+namespace interfaces\Request;
 
 
 interface UploadFileInterface

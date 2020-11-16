@@ -1,10 +1,10 @@
 <?php
 
 
-namespace helper\Internet\Route;
+namespace helper\Request\Route;
 
 
-use interfaces\Route\HeaderInterfaces;
+use interfaces\Request\HeaderInterfaces;
 
 class Header extends Param implements HeaderInterfaces
 {

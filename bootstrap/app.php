@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace bootstrap;
 
+use app\demo\commands\DTestCommand;
 use helper\Config;
 use helper\Env;
 use Inhere\Console\IO\Input;
@@ -37,9 +38,9 @@ class app
 
         date_default_timezone_set('Asia/Shanghai');
         $this->config['text_logo'] = file_get_contents($this->config['base_path'] . '/brand/ns_logo.text');
-        Env::__make(ROOT_PATH.'/.env');
-        Config::__make(BASE_PATH.'/config','php');
-        \module\App::__make(BASE_PATH."/app");
+        Env::__make(ROOT_PATH . '/.env');
+        Config::__make(BASE_PATH . '/config', 'php');
+        load::__make(BASE_PATH . "/app");
     }
 
     public function start()
@@ -69,6 +70,25 @@ class app
             } else {
                 $app->command($class);
             }
+
+        }
+
+
+        //注册APP命令
+        $extend_commands = load::getCommands();
+
+        foreach ($extend_commands as $id => $extend_command) {
+
+            foreach ($extend_command as $key => $value) {
+                $class =  'app\\'.$id . '\\' . $value['class'];
+                $type = $value['mode'];
+                if ($type == 'HAS_GROUP') {
+                    $app->controller($class);
+                } else {
+                    $app->command($class);
+                }
+            }
+
 
         }
 
