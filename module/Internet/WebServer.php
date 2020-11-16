@@ -4,11 +4,11 @@
 namespace module\Internet;
 
 
-use helper\Request\Route\Cookie;
-use helper\Request\Route\Get;
-use helper\Request\Route\Header;
-use helper\Request\Route\Post;
-use helper\Request\Route\UploadFile;
+use helper\Internet\Request\Cookie;
+use helper\Internet\Request\Get;
+use helper\Internet\Request\Header;
+use helper\Internet\Request\Post;
+use helper\Internet\Request\UploadFile;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Server;
@@ -53,30 +53,21 @@ class WebServer extends \helper\Internet\WebServer
     public function onRequest(Request $request, Response $response, ...$args)
     {
 
-        try {
-            $header = $request->header?:[];
-            $server = $request->server?:[];
-            $cookie = $request->cookie?:[];
-            $get = $request->get?:[];
-            $post = $request->post?:[];
+        $header = $request->header?:[];
+        $server = $request->server?:[];
+        $cookie = $request->cookie?:[];
+        $get = $request->get?:[];
+        $post = $request->post?:[];
 
-            new \helper\Internet\Request(
-                $request->server['request_method'],
-                $request->server['request_uri'],
-                new Header($header),
-                new \helper\Request\Route\Server($server),
-                new Cookie($cookie),
-                new Get($get),
-                new Post($post),
-                $this->getUploadFile($request->files));
-        }catch (\ErrorException $exception){
-            $response->setStatusCode(500);
-        }catch (\Error $exception){
-            $response->setStatusCode(500);
-        }catch (\Exception $exception){
-            $response->setStatusCode(500);
-        }
-        $response->close();
+        new \helper\Internet\Request(
+            $request->server['request_method'],
+            $request->server['request_uri'],
+            new Header($header),
+            new \helper\Internet\Request\Server($server),
+            new Cookie($cookie),
+            new Get($get),
+            new Post($post),
+            $this->getUploadFile($request->files));
     }
 
     private function getUploadFile($files)

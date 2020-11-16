@@ -1,7 +1,7 @@
 <?php
 
 
-namespace helper\Request\Route;
+namespace helper\Internet\Request;
 
 
 use interfaces\Request\ServerInterface;

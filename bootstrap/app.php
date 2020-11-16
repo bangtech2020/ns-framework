@@ -6,6 +6,7 @@ namespace bootstrap;
 
 use helper\Config;
 use helper\Env;
+use helper\Internet\Route;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
@@ -40,6 +41,7 @@ class app
         Env::__make(ROOT_PATH . '/.env');
         Config::__make(BASE_PATH . '/config', 'php');
         load::__make(BASE_PATH . "/app");
+        Route::__make();
     }
 
     public function start()
