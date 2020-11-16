@@ -4,7 +4,7 @@
 namespace helper\Internet\Route;
 
 
-class Server
+class Server extends Param
 {
 
 }

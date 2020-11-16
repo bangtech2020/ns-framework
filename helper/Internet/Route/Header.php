@@ -4,7 +4,17 @@
 namespace helper\Internet\Route;
 
 
-class Header
+use interfaces\Route\HeaderInterfaces;
+
+class Header extends Param implements HeaderInterfaces
 {
 
+    /**
+     * @inheritDoc
+     */
+    public function set($name, $value)
+    {
+        $this->params[$name] = $value;
+        return true;
+    }
 }

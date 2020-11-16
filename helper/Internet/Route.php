@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace helper\Internet;
-
 
 use interfaces\Route\CookieInterface;
 use interfaces\Route\GetInterface;
@@ -42,13 +42,13 @@ class Route
      * @param PostInterface $post
      * @param UploadFileInterface $files
      */
-    public function __construct($method, $uri, $header, $server, $cookie, $get , $post , $files)
+    public function __construct($method, $uri, $header, $server, $cookie, $get, $post, $files)
     {
         $this->method = $method;
         $this->uri = $uri;
         $this->header = $header;
-        $this->server = $server;
         $this->cookie = $cookie;
+        $this->server = $server;
         $this->get = $get;
         $this->post = $post;
         $this->files = $files;
@@ -117,7 +117,6 @@ class Route
     {
         return $this->files;
     }
-
 
 
 }
