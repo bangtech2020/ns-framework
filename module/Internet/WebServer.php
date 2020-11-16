@@ -67,8 +67,11 @@ class WebServer extends \helper\Internet\WebServer
             new Cookie($cookie),
             new Get($get),
             new Post($post),
-            $this->getUploadFile($request->files));
+            $this->getUploadFile($request->files),
+            new \module\Internet\WebServer\Request($response)
+        );
     }
+
 
     private function getUploadFile($files)
     {

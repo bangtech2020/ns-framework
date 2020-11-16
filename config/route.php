@@ -1,7 +1,7 @@
 <?php
 return [
     'route' => [
-        ['GET','/','User@aa']
+        ['GET','/','module\\app\\user\\Index@index']
     ],
     'group' => [
         'user' => [

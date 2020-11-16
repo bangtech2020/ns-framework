@@ -31,6 +31,7 @@ class Request
     protected $get;
     protected $post;
     protected $files;
+    protected $request;
 
     /**
      * Route constructor.
@@ -42,8 +43,9 @@ class Request
      * @param GetInterface $get
      * @param PostInterface $post
      * @param UploadFileInterface $files
+     * @param \module\Internet\WebServer\Request $request
      */
-    public function __construct($method, $uri, $header, $server, $cookie, $get, $post, $files)
+    public function __construct($method, $uri, $header, $server, $cookie, $get, $post, $files, $request)
     {
         $this->method = $method;
         $this->uri = $uri;
@@ -53,9 +55,42 @@ class Request
         $this->get = $get;
         $this->post = $post;
         $this->files = $files;
+        $this->request = $request;
+        $this->route();
+    }
 
 
+    public function route()
+    {
+        $routeInfo = Route::dispatch($this->method, $this->uri);
+        switch ($routeInfo[0]) {
+            case \FastRoute\Dispatcher::NOT_FOUND:
+                $this->request->send(404, '404 Not Found');
+                break;
+            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+                $this->request->send(405, '405 Method Not Allowed');
+                break;
+            case \FastRoute\Dispatcher::FOUND:
+                //$handler = $routeInfo[1];
+                //$vars = $routeInfo[2];
 
+                [$class, $action] = explode('@', $routeInfo[1]);
+                var_dump($routeInfo[1], $routeInfo[2]);
+                var_dump($class, $action);
+                try {
+                    $class_instance = new $class();
+                    $result = call_user_func([$class_instance, $action]);
+                    if (!empty($result)) {
+                        $this->request->send('200',$result);
+                    }
+                } catch (\Exception $exception) {
+                    $this->request->send(500,'500 Internal Server Error');
+                    var_dump("\033[1;31m500 Internal Server Error => {$exception->getMessage()}\033[0m");
+                    //$this->output->writeln("\033[1;31m500 Internal Server Error => {$exception->getMessage()}\033[0m");
+                    return;
+                }
+                break;
+        }
     }
 
 

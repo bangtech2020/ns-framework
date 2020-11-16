@@ -5,11 +5,15 @@ namespace helper\Internet;
 
 
 use bootstrap\load;
+use FastRoute\Dispatcher;
 use helper\Config;
 use interfaces\RouteInterface;
 
 class Route implements RouteInterface
 {
+    /**
+     * @var Dispatcher $dispatcher
+     */
     private static $dispatcher;
 
     public function __construct()
@@ -55,5 +59,10 @@ class Route implements RouteInterface
 
 
         });
+    }
+
+    public static function dispatch($httpMethod, $uri)
+    {
+        return self::$dispatcher->dispatch($httpMethod, $uri);
     }
 }
