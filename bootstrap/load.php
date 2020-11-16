@@ -4,9 +4,6 @@
 namespace bootstrap;
 
 
-use app\demo\extend\Index;
-use helper\Config;
-
 class load
 {
     private static $path = '';

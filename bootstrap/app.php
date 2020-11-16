@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace bootstrap;
 
-use app\demo\commands\DTestCommand;
 use helper\Config;
 use helper\Env;
 use Inhere\Console\IO\Input;
@@ -88,8 +87,6 @@ class app
                     $app->command($class);
                 }
             }
-
-
         }
 
         $app->run();
