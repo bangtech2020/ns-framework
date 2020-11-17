@@ -9,8 +9,8 @@ return [
     ['commands\\App\\LoadCommand',\helper\Console::HAS_COMMAND],
 
     //服务模块
-    ['commands\\ServerCommand',\helper\Console::HAS_COMMAND],
-    ['commands\\Server\\InternetCommand',\helper\Console::HAS_COMMAND],
+    //['commands\\ServerCommand',\helper\Console::HAS_COMMAND],
+    //['commands\\Server\\InternetCommand',\helper\Console::HAS_COMMAND],
 
     ['commands\\DemoCommand',\helper\Console::HAS_COMMAND],
     ['commands\\TestCommand',\helper\Console::HAS_COMMAND],

@@ -6,11 +6,11 @@ namespace bootstrap;
 
 use helper\Config;
 use helper\Env;
-use helper\Internet\Route;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
 use helper\Console;
+use module\Internet\WebServer\Route;
 use Phar;
 
 class app

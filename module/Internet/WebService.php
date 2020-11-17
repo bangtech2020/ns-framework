@@ -4,9 +4,9 @@
 namespace module\Internet;
 
 
-use helper\Internet\Route;
 use interfaces\Internet\ResponseInterface;
 use interfaces\Internet\RequestInterface;
+use module\Internet\WebServer\Route;
 
 class WebService
 {

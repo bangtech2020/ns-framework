@@ -34,6 +34,5 @@ class InternetCommand extends CommandInterface
     protected function execute($input, $output)
     {
         $this->output->writeln("启动网络服务");
-        new WebServer('0.0.0.0',8008);
     }
 }
