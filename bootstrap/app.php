@@ -80,8 +80,9 @@ class app
 
         foreach ($extend_commands as $id => $extend_command) {
 
+            [$author,$identification] = explode('/',$id);
             foreach ($extend_command as $value) {
-                $class =  'app\\'.$id . '\\' . $value['class'];
+                $class =  'app\\'.$author . '\\'. $identification . '\\' . $value['class'];
                 $type = $value['mode'];
                 if ($type == 'HAS_GROUP') {
                     $app->controller($class);

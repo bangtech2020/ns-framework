@@ -1,9 +1,8 @@
 <?php
 
-namespace app\demo\commands;
+namespace app\bangtech\demo\command;
 
 use Inhere\Console\IO\Input;
-use Inhere\Console\IO\InputDefinition;
 use Inhere\Console\IO\Output;
 use helper\Console\CommandInterface;
 
@@ -15,6 +14,7 @@ class DTestCommand extends CommandInterface
 {
     // 命令名称
     protected static $name = 'dtest';
+
     // 命令描述
     protected static $description = 'this is a test independent command';
 

@@ -1,11 +1,12 @@
 {
   "packages": {
-    "demo": {
-      "name": "demo",
+    "bangtech/demo": {
+      "name": "Demo",
       "type": "dir",
-      "path": "demo",
+      "path": "bangtech/demo",
       "setting": {
         "name": "Demo",
+        "author": "bangtech",
         "identification": "demo",
         "version": "0.0.1",
         "description": "描述",
@@ -15,7 +16,7 @@
           {"mode": "GET", "route": "", "handler": "extend\\Index@index"}
         ],
         "command": [
-          {"class": "commands\\DTestCommand", "mode": "HAS_COMMAND"}
+          {"class": "command\\DTestCommand", "mode": "HAS_COMMAND"}
         ]
       }
     }
