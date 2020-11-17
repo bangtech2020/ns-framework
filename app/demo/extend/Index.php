@@ -4,7 +4,7 @@
 namespace app\demo\extend;
 
 
-class Index
+class Index extends \helper\Internet\Controller
 {
     public function index()
     {

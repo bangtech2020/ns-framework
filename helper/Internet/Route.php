@@ -50,14 +50,12 @@ class Route implements RouteInterface
             //扩展应用路由
             $extend_routes = load::getRoutes();
             foreach ($extend_routes as $id => $extend_route) {
-                $routeCollector->addGroup("/{$id}", function (\FastRoute\RouteCollector $r) use ($extend_route,$id) {
+                $routeCollector->addGroup("/{$id}/", function (\FastRoute\RouteCollector $r) use ($extend_route,$id) {
                     foreach ($extend_route as $value) {
                         $r->addRoute($value['mode'], $value['route'], "app\\{$id}\\{$value['handler']}");
                     }
                 });
             }
-
-
         });
     }
 

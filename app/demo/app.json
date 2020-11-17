@@ -6,7 +6,7 @@
   "copyright": "合肥好多帮信息科技有限公司",
   "plugin": [],
   "extend": [
-    {"mode": "GET", "route": "/", "handler": "extend\\Index@index"}
+    {"mode": "GET", "route": "", "handler": "extend\\Index@index"}
   ],
   "command": [
     {"class": "commands\\DTestCommand", "mode": "HAS_COMMAND"}
