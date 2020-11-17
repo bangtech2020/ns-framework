@@ -38,7 +38,7 @@ class Service
 
     public function start($host, $port)
     {
-        $this->output->writeln("Start Web Server ...");
+        $this->output->info("Start Web Server ...");
         $process = new \Swoole\Process(function () use ($host, $port) {
             new Server($host, $port);
         });
