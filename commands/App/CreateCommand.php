@@ -20,8 +20,6 @@ class CreateCommand extends CommandInterface
      */
     protected function execute($input, $output)
     {
-        // TODO: Implement execute() method.
-        $output->writeln("应用创建");
         $replace = [];
         $config = [];
 

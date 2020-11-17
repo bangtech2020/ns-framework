@@ -5,6 +5,7 @@ namespace commands\App;
 
 
 use helper\Console\CommandInterface;
+use Inhere\Console\IO\Input;
 
 class LoadCommand extends CommandInterface
 {
@@ -14,7 +15,9 @@ class LoadCommand extends CommandInterface
 
     protected function configure(): void
     {
-        $this->createDefinition();
+        $this->createDefinition()
+            ->addArgument('path',Input::ARG_REQUIRED,'{atuho}/{id}')
+        ;
     }
 
     /**
@@ -23,18 +26,105 @@ class LoadCommand extends CommandInterface
      */
     protected function execute($input, $output)
     {
-        // TODO: Implement execute() method.
-        $output->writeln("应用创建");
-        //获得应用名称
-        $appName = $this->read('Enter the application name: ');
+        $app_name = $input->getArgument('path');
+        $app_path = ROOT_PATH."/app/{$app_name}";
+        $config_file = "{$app_path}/app.json";
 
-        while (!$appName){
-            $appName = $this->read('Please!!! Enter the application name: ');
+        if (!is_dir($app_path)){
+            $this->output->error('Applications don\'t exist!!!!!!');
         }
 
-        $has_extension  = $this->confirm('Is there an extension? ');
-        $has_plugin     = $this->confirm('Is there a plug-in? ');
-        $has_command    = $this->confirm('Is there a command? ');
-        $output->writeln("App Name: {$appName}");
+        if (!is_file($config_file)){
+            $this->output->error('The app does not have an [app.json] file !!!!!!');
+        }
+
+        try {
+            $app_config = json_decode(file_get_contents($config_file),true);
+        }catch (\ErrorException $exception){
+            $this->output->error("App configuration file failed to read!!!");
+            return;
+        } catch (\Error $exception){
+            $this->output->error("App configuration file failed to read!!!");
+            return;
+        } catch (\Exception $exception){
+            $this->output->error("App configuration file failed to read!!!");
+            return;
+        }
+
+
+        $has_add  = $this->confirm('Add to the ns.json file? ',false);
+
+        if ($has_add){
+            $has_dev_o  = $this->confirm('For development only? ',false);
+
+            $ns_config = [
+                'require' => [],
+                'require-dev' => []
+            ];
+
+            if (is_file(ROOT_PATH."/app/ns.json")){
+                try {
+                    $ns_config = json_decode(file_get_contents(ROOT_PATH."/app/ns.json"),true);
+                }catch (\ErrorException $exception){
+                    $ns_config = ['require' => [], 'require-dev' => []];
+                } catch (\Error $exception){
+                    $ns_config = ['require' => [], 'require-dev' => []];
+                } catch (\Exception $exception){
+                    $ns_config = ['require' => [], 'require-dev' => []];
+                }
+            }
+
+            //清空自生原来的依赖关系
+            if (isset($ns_config['require'][$app_name])){
+                unset($ns_config['require'][$app_name]);
+            }
+            if (isset($ns_config['require-dev'][$app_name])){
+                unset($ns_config['require-dev'][$app_name]);
+            }
+
+            if ($has_dev_o){
+                $ns_config['require-dev'][$app_name] = '*';
+            }else{
+                $ns_config['require'][$app_name] = '*';
+            }
+
+            $_has = file_put_contents(ROOT_PATH."/app/ns.json",json_encode($ns_config,JSON_UNESCAPED_SLASHES));
+
+            if ($_has){
+                $this->output->success("The ns.json file dependency was updated successfully");
+            }else{
+                $this->output->error("Dependency update failed for ns.json files");
+            }
+        }
+
+        if (is_file(ROOT_PATH."/app/ns.lock")){
+            try {
+                $ns_lock = json_decode(file_get_contents(ROOT_PATH."/app/ns.lock"),true);
+            }catch (\ErrorException $exception){
+                $ns_lock = ['packages' => []];
+            } catch (\Error $exception){
+                $ns_lock = ['packages' => []];
+            } catch (\Exception $exception){
+                $ns_lock = ['packages' => []];
+            }
+        }else{
+            $ns_lock = ['packages' => []];
+        }
+
+
+        $ns_lock['packages'][$app_name] = [
+            'name'=>$app_config['name'],
+            "type"=> "dir",
+            'path'=>$app_name,
+            'setting'=>$app_config
+        ];
+
+        $_has = file_put_contents(ROOT_PATH."/app/ns.lock",json_encode($ns_lock,JSON_UNESCAPED_SLASHES));
+        if ($_has){
+            $this->output->success("The ns.lock file dependency was updated successfully");
+            $this->output->success("successfully");
+        }else{
+            $this->output->error("Dependency update failed for ns.lock files");
+        }
     }
 }

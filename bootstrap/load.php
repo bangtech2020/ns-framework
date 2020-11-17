@@ -77,6 +77,11 @@ class load
 
         $apps = [];
 
+        if (!is_file(self::$path.'/ns.lock')){
+            self::$apps = $apps;
+            return;
+        }
+
         $nsConfig = file_get_contents(self::$path.'/ns.lock');
         $nsConfig = json_decode($nsConfig,true);
         $packages = $nsConfig['packages'];
