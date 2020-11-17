@@ -1,0 +1,13 @@
+{
+  "name": "bangtech/swoole_http",
+  "author": "bangtech",
+  "identification": "swoole_http",
+  "version": "0.0.1",
+  "description": "",
+  "copyright": "",
+  "plugin": [],
+  "extend": [],
+  "command": [
+    {"class": "command\\WebServerCommand", "mode": "HAS_COMMAND"}
+  ]
+}
