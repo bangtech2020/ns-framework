@@ -40,7 +40,7 @@ class app
         $this->config['text_logo'] = file_get_contents($this->config['base_path'] . '/brand/ns_logo.text');
         Env::__make(ROOT_PATH . '/.env');
         Config::__make(BASE_PATH . '/config', 'php');
-        load::__make(BASE_PATH . "/app");
+        load::__make(ROOT_PATH . "/app");
         Route::__make();
     }
 

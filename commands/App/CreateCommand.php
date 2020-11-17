@@ -82,7 +82,7 @@ class CreateCommand extends CommandInterface
 
         if ($has_command){
             $this->createFile(ROOT_PATH."/app/{$author}/{$app_id}/command",'DemoCommand',BASE_PATH.'/commands/App/template/command/DemoCommand.php.tph',$replace);
-            $config['command'][] = ['class'=> "commands\DemoCommand", 'mode'=>'HAS_COMMAND'];
+            $config['command'][] = ['class'=> "command\DemoCommand", 'mode'=>'HAS_COMMAND'];
         }
 
         file_put_contents(ROOT_PATH."/app/{$author}/{$app_id}/app.json",json_encode($config,JSON_UNESCAPED_SLASHES));

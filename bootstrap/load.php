@@ -72,7 +72,8 @@ class load
     public function init() :void
     {
         if (!is_dir(self::$path)) {
-            throw new \Exception('This not directory!');
+            self::$apps = [];
+            return;
         }
 
         $apps = [];
