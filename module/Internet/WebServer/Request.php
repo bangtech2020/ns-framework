@@ -22,7 +22,13 @@ class Request extends \helper\Internet\Request
         $this->server = new Server($request->server);
         $this->get = new Get($request->get);
         $this->post = new Post($request->post);
-        $this->files = new File($request->files['name'], $request->files['type'], $request->files['tmp_name'], $request->files['size']);
+        $files = [
+            'name' => isset($request->files['name'])?:'',
+            'type' => isset($request->files['type'])?:'',
+            'tmp_name' => isset($request->files['tmp_name'])?:'',
+            'size' => isset($request->files['size'])?:'',
+        ];
+        $this->files = new File($files['name'], $files['type'], $files['tmp_name'], $files['size']);
         $this->request = $request;
     }
 }

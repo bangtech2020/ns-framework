@@ -9,8 +9,9 @@ class Param
 
     protected $params = [];
 
-    public function __construct(array $params)
+    public function __construct($params)
     {
+        if (!is_array($params)) $params = [];
         $this->params = $params;
     }
 

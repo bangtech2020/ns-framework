@@ -1,6 +1,6 @@
 {
   "require": {
-
+    "demo": "*"
   },
   "require-dev": {
 
