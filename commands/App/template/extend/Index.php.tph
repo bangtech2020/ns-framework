@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
+
+namespace app\${{author}}\${{app_id}}\extend;
 
 
-namespace app\demo\extend;
-
-
-class Index extends \helper\Internet\Controller
+class ${{file_name}} extends \helper\Internet\Controller
 {
     public function index()
     {

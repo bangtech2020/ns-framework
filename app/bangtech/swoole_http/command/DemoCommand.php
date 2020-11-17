@@ -1,22 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace app\${{author}}\${{app_id}}\command;
+namespace app\bangtech\swoole_http\command;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use helper\Console\CommandInterface;
 
 /**
- * Class ${{file_name}}
+ * Class DemoCommand
  * @package commands
  */
-class ${{file_name}} extends CommandInterface
+class DemoCommand extends CommandInterface
 {
     // 命令名称
-    protected static $name = '${{author}}:${{app_id}}:demo';
+    protected static $name = 'bangtech:swoole_http:demo';
     // 命令描述
-    protected static $description = 'This is a demo from ${{author}}/${{app_id}}';
+    protected static $description = 'This is a demo from bangtech/swoole_http';
 
 
     protected function configure(): void
@@ -35,6 +35,6 @@ class ${{file_name}} extends CommandInterface
     public function execute($input, $output)
     {
 
-        $output->write('hello world, This is a demo from ${{author}}/${{app_id}}');
+        $output->write('hello world, This is a demo from bangtech/swoole_http');
     }
 }
