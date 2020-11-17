@@ -4,11 +4,7 @@
 namespace module\Internet;
 
 
-use helper\Internet\Request\Cookie;
-use helper\Internet\Request\Get;
-use helper\Internet\Request\Header;
-use helper\Internet\Request\Post;
-use helper\Internet\Request\UploadFile;
+
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Server;
@@ -52,43 +48,8 @@ class WebServer extends \helper\Internet\WebServer
      */
     public function onRequest(Request $request, Response $response, ...$args)
     {
-
-        $header = $request->header?:[];
-        $server = $request->server?:[];
-        $cookie = $request->cookie?:[];
-        $get = $request->get?:[];
-        $post = $request->post?:[];
-
-        new \helper\Internet\Request(
-            $request->server['request_method'],
-            $request->server['request_uri'],
-            new Header($header),
-            new \helper\Internet\Request\Server($server),
-            new Cookie($cookie),
-            new Get($get),
-            new Post($post),
-            $this->getUploadFile($request->files),
-            new \module\Internet\WebServer\Request($response)
-        );
-    }
-
-
-    private function getUploadFile($files)
-    {
-        $name = '';
-        $type = '';
-        $tmp_name = '';
-        $error = '';
-        $size = '';
-
-        if ($files){
-            $name = $files['name'];
-            $type = $files['type'];
-            $tmp_name = $files['tmp_name'];
-            $error = $files['error'];
-            $size = $files['size'];
-        }
-        return new UploadFile($name,$type,$tmp_name,$error,$size);
+        $webService = new WebService(new \module\Internet\WebServer\Request($request),new \module\Internet\WebServer\Response($response));
+        $webService->onRequest();
     }
 
     /**

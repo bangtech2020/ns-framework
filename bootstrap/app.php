@@ -80,8 +80,10 @@ class app
 
         foreach ($extend_commands as $id => $extend_command) {
 
-            foreach ($extend_command as $key => $value) {
+            foreach ($extend_command as $value) {
                 $class =  'app\\'.$id . '\\' . $value['class'];
+                //$class::class
+                call_user_func([$class,'resetName'],"{$id}:");
                 $type = $value['mode'];
                 if ($type == 'HAS_GROUP') {
                     $app->controller($class);

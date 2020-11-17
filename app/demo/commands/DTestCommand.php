@@ -18,11 +18,6 @@ class DTestCommand extends CommandInterface
     // 命令描述
     protected static $description = 'this is a test independent command';
 
-    public function __construct(Input $input, Output $output, InputDefinition $definition = null)
-    {
-        var_dump("hello");
-        parent::__construct($input, $output, $definition);
-    }
 
     protected function configure(): void
     {

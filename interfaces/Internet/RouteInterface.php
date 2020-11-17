@@ -1,7 +1,7 @@
 <?php
 
 
-namespace interfaces;
+namespace interfaces\Internet;
 
 
 interface RouteInterface

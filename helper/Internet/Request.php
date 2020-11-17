@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace helper\Internet;
 
-use interfaces\Request\CookieInterface;
-use interfaces\Request\GetInterface;
-use interfaces\Request\HeaderInterfaces;
-use interfaces\Request\PostInterface;
-use interfaces\Request\ServerInterface;
-use interfaces\Request\UploadFileInterface;
-use interfaces\RouteInterface;
 
-class Request
+use helper\Internet\Request\Cookie;
+use helper\Internet\Request\File;
+use helper\Internet\Request\Get;
+use helper\Internet\Request\Header;
+use helper\Internet\Request\Post;
+use helper\Internet\Request\Server;
+use interfaces\Internet\RequestInterface;
+
+abstract class Request implements RequestInterface
 {
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
@@ -23,81 +24,47 @@ class Request
     const METHOD_TRACE = 'TRACE';
     const METHOD_CONNECT = 'CONNECT';
 
+    /**
+     * @var string
+     */
     protected $method;
+    /**
+     * @var string
+     */
     protected $uri;
+    /**
+     * @var Header
+     */
     protected $header;
+    /**
+     * @var Server
+     */
     protected $server;
+    /**
+     * @var Cookie
+     */
     protected $cookie;
+    /**
+     * @var Get
+     */
     protected $get;
+    /**
+     * @var Post
+     */
     protected $post;
+    /**
+     * @var File
+     */
     protected $files;
+
     protected $request;
 
-    /**
-     * Route constructor.
-     * @param string $method
-     * @param string $uri
-     * @param HeaderInterfaces $header
-     * @param ServerInterface $server
-     * @param CookieInterface $cookie
-     * @param GetInterface $get
-     * @param PostInterface $post
-     * @param UploadFileInterface $files
-     * @param \module\Internet\WebServer\Request $request
-     */
-    public function __construct($method, $uri, $header, $server, $cookie, $get, $post, $files, $request)
-    {
-        $this->method = $method;
-        $this->uri = $uri;
-        $this->header = $header;
-        $this->cookie = $cookie;
-        $this->server = $server;
-        $this->get = $get;
-        $this->post = $post;
-        $this->files = $files;
-        $this->request = $request;
-        $this->route();
-    }
-
-
-    public function route()
-    {
-        $routeInfo = Route::dispatch($this->method, $this->uri);
-        switch ($routeInfo[0]) {
-            case \FastRoute\Dispatcher::NOT_FOUND:
-                $this->request->send(404, '404 Not Found');
-                break;
-            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-                $this->request->send(405, '405 Method Not Allowed');
-                break;
-            case \FastRoute\Dispatcher::FOUND:
-                //$handler = $routeInfo[1];
-                //$vars = $routeInfo[2];
-
-                [$class, $action] = explode('@', $routeInfo[1]);
-                var_dump($routeInfo[1], $routeInfo[2]);
-                var_dump($class, $action);
-                try {
-                    $class_instance = new $class();
-                    $result = call_user_func([$class_instance, $action]);
-                    if (!empty($result)) {
-                        $this->request->send('200',$result);
-                    }
-                } catch (\Exception $exception) {
-                    $this->request->send(500,'500 Internal Server Error');
-                    var_dump("\033[1;31m500 Internal Server Error => {$exception->getMessage()}\033[0m");
-                    //$this->output->writeln("\033[1;31m500 Internal Server Error => {$exception->getMessage()}\033[0m");
-                    return;
-                }
-                break;
-        }
-    }
 
 
     /**
      * @return string
      */
-    public function getMethod(): string
+    public function getMethod()
     {
         return $this->method;
     }
@@ -105,58 +72,68 @@ class Request
     /**
      * @return string
      */
-    public function getUri(): string
+    public function getUri()
     {
         return $this->uri;
     }
 
+
     /**
-     * @return HeaderInterfaces
+     * @return Header|\interfaces\Internet\Request\HeaderInterfaces
      */
-    public function getHeader(): HeaderInterfaces
+    public function getHeader()
     {
         return $this->header;
     }
 
+
     /**
-     * @return ServerInterface
+     * @return Server|\interfaces\Internet\Request\ServerInterface
      */
-    public function getServer(): ServerInterface
+    public function getServer()
     {
         return $this->server;
     }
 
     /**
-     * @return CookieInterface
+     * @return Cookie|\interfaces\Internet\Request\CookieInterface
      */
-    public function getCookie(): CookieInterface
+    public function getCookie()
     {
         return $this->cookie;
     }
 
+
     /**
-     * @return GetInterface
+     * @return Get|\interfaces\Internet\Request\GetInterface
      */
-    public function getGet(): GetInterface
+    public function getGet()
     {
         return $this->get;
     }
 
     /**
-     * @return PostInterface
+     * @return Post|\interfaces\Internet\Request\PostInterface
      */
-    public function getPost(): PostInterface
+    public function getPost()
     {
         return $this->post;
     }
 
     /**
-     * @return UploadFileInterface
+     * @return File|\interfaces\Internet\Request\FileInterface
      */
-    public function getFiles(): UploadFileInterface
+    public function getFiles(): File
     {
         return $this->files;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
 
 }
