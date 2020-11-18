@@ -4,6 +4,8 @@
 namespace bootstrap;
 
 
+use helper\Config;
+
 class load
 {
     private static $path = '';
@@ -55,9 +57,33 @@ class load
 
     public static function autoload($class_name)
     {
+
+        var_dump("加载缺少的依赖->{$class_name}");
+        $has_dev = Config::get('app.dev',false);
         $file = preg_replace('/(\\\\+)+/', '/', $class_name);
+
+
+        //重写Phar路径
+        $file_phar = explode('/',$file);
+        if ($file_phar[0] == 'app'){
+            $file_phar[2] = $file_phar[2].'.phar';
+        }
+        $phar_path = ROOT_PATH."/{$file_phar[0]}/{$file_phar[1]}/{$file_phar[2]}";
+        $file_phar = implode('/',$file_phar);
+
+
         $file = ROOT_PATH.'/'.$file.'.php';
-        if (is_file($file)) require $file;
+        $file_phar = 'Phar://'.ROOT_PATH.'/'.$file_phar.'.php';
+
+
+        //开发模式下直接通过文件夹加载，不读取phar
+        if ($has_dev && is_file($file)) {
+            require $file;
+            return;
+        }
+
+
+        if (is_file($phar_path) && is_file($file_phar)) require $file_phar;
     }
 
     private function __construct($path)
