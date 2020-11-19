@@ -1,7 +1,7 @@
 <?php
 
 
-namespace app\bangtech\swoole_http\command\WebServer\interfaces;
+namespace app\bangtech\swoole_http\webServer\interfaces;
 
 
 use Swoole\Http\Request;

@@ -1,14 +1,14 @@
 <?php
 
 
-namespace app\bangtech\swoole_http\command\WebServer;
+namespace app\bangtech\swoole_http\webServer;
 
 
 use module\Internet\WebService;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-class Server extends \app\bangtech\swoole_http\command\WebServer\helper\Server
+class Server extends \app\bangtech\swoole_http\webServer\helper\Server
 {
 
     /**

@@ -1,10 +1,9 @@
 <?php
 
 
-namespace app\bangtech\swoole_http\command\WebServer\helper;
+namespace app\bangtech\swoole_http\webServer\helper;
 
-
-use app\bangtech\swoole_http\command\WebServer\interfaces\ServerInterface;
+use app\bangtech\swoole_http\webServer\interfaces\ServerInterface;
 
 abstract class Server implements ServerInterface
 {

@@ -12,7 +12,7 @@ class load
     private static $apps = [];
     private static $commands = [];
     private static $routes   = [];
-    private static $plugins  = [];
+    private static $events  = [];
 
     /**
      * @return string
@@ -42,9 +42,9 @@ class load
     /**
      * @return array
      */
-    public static function getPlugins(): array
+    public static function getEvents(): array
     {
-        return self::$plugins;
+        return self::$events;
     }
 
 
@@ -113,7 +113,7 @@ class load
 
         foreach ($packages as $id => $package) {
             self::$commands[$id] = $package['setting']['command'];
-            self::$plugins[$id]  = $package['setting']['plugin'];
+            self::$events[$id]  = $package['setting']['event'];
             self::$routes[$id]   = $package['setting']['extend'];
         }
 

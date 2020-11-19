@@ -54,7 +54,7 @@ class CreateCommand extends CommandInterface
             'version'=>'0.0.1',
             'description'=>'',
             'copyright'=>'',
-            'plugin'=>[],
+            'event'=>[],
             'extend'=>[],
             'command'=>[],
         ];
@@ -71,7 +71,7 @@ class CreateCommand extends CommandInterface
 
 
         $has_extension  = $this->confirm('Is there an extension? ');
-        $has_plugin     = $this->confirm('Is there a plug-in? ');
+        $has_event     = $this->confirm('Is there a event listener? ');
         $has_command    = $this->confirm('Is there a command? ');
 
         $this->writeln("Start creating the relevant files");

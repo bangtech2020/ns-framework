@@ -5,7 +5,10 @@
   "version": "0.0.1",
   "description": "",
   "copyright": "",
-  "plugin": [],
+  "event": {
+    "app_start": ["event\\EventListener@app_start"],
+    "app_stop" : ["event\\EventListener@app_stop"]
+  },
   "extend": [],
   "command": [
     {"class": "command\\WebServerCommand", "mode": "HAS_COMMAND"}
