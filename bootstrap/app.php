@@ -68,12 +68,10 @@ class app
         foreach ($commands as $key => $command) {
             [$class, $type] = $command;
 
-            if(method_exists($class,'execute')) {
-                if ($type === Console::HAS_GROUP) {
-                    $app->controller($class);
-                } else {
-                    $app->command($class);
-                }
+            if ($type === Console::HAS_GROUP) {
+                $app->controller($class);
+            } else {
+                $app->command($class);
             }
 
         }
