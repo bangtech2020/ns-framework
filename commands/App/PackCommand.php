@@ -47,7 +47,7 @@ class PackCommand extends CommandInterface
         }
 
         // 包的名称, 注意它不仅仅是一个文件名, 在stub中也会作为入口前缀
-        $phar = new Phar("{$out_dir}/{$identification}.phar", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, "{$out_dir}/{$identification}.phar");
+        $phar = new Phar("{$out_dir}/{$identification}.phar", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, "{$identification}.phar");
 
         // 开始打包
         $phar->startBuffering();

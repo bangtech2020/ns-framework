@@ -57,8 +57,6 @@ class load
 
     public static function autoload($class_name)
     {
-
-        var_dump("加载缺少的依赖->{$class_name}");
         $has_dev = Config::get('app.dev',false);
         $file = preg_replace('/(\\\\+)+/', '/', $class_name);
 
@@ -74,7 +72,6 @@ class load
 
         $file = ROOT_PATH.'/'.$file.'.php';
         $file_phar = 'Phar://'.ROOT_PATH.'/'.$file_phar.'.php';
-
 
         //开发模式下直接通过文件夹加载，不读取phar
         if ($has_dev && is_file($file)) {

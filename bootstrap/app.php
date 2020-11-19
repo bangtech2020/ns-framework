@@ -10,6 +10,7 @@ use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Application;
 use helper\Console;
+use InvalidArgumentException;
 use module\Internet\WebServer\Route;
 use Phar;
 
@@ -66,10 +67,13 @@ class app
 
         foreach ($commands as $key => $command) {
             [$class, $type] = $command;
-            if ($type === Console::HAS_GROUP) {
-                $app->controller($class);
-            } else {
-                $app->command($class);
+
+            if(method_exists($class,'execute')) {
+                if ($type === Console::HAS_GROUP) {
+                    $app->controller($class);
+                } else {
+                    $app->command($class);
+                }
             }
 
         }
@@ -84,11 +88,23 @@ class app
             foreach ($extend_command as $value) {
                 $class =  'app\\'.$author . '\\'. $identification . '\\' . $value['class'];
                 $type = $value['mode'];
-                if ($type == 'HAS_GROUP') {
-                    $app->controller($class);
-                } else {
-                    $app->command($class);
+                try {
+                    if ($type == 'HAS_GROUP') {
+                        $app->controller($class);
+                    } else {
+                        $app->command($class);
+                    }
                 }
+                catch (InvalidArgumentException $exception){
+                    $output->warning('加载失败:'.$exception->getMessage());
+                } catch (\ErrorException $exception){
+                    $output->warning('加载失败:'.$exception->getMessage());
+                } catch (\Error $exception){
+                    $output->warning('加载失败:'.$exception->getMessage());
+                } catch (\Exception $exception){
+                    $output->warning('加载失败:'.$exception->getMessage());
+                }
+
             }
         }
 
