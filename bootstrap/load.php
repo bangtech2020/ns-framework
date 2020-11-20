@@ -5,6 +5,8 @@ namespace bootstrap;
 
 
 use helper\Config;
+use helper\Di;
+use interfaces\Console\OutputInterface;
 
 class load
 {
@@ -79,6 +81,9 @@ class load
             return;
         }
 
+        if (!is_file($phar_path)){
+            Di::getContainer()->get(OutputInterface::class)->warning("File not found for [{$phar_path}]");
+        }
 
         if (is_file($phar_path) && is_file($file_phar)) require $file_phar;
     }
