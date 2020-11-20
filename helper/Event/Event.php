@@ -26,7 +26,13 @@ class Event
             [$class,$action] = explode('@',$value['event_action']);
             try {
                 call_user_func([new $class,$action],$context);
-            }catch (\Throwable $exception){
+            } catch (\Error $exception){
+                $output->writeln("事件:{$event_name},调用响应:{$value}失败");
+            } catch (\ErrorException $exception){
+                $output->writeln("事件:{$event_name},调用响应:{$value}失败");
+            } catch (\Exception $exception){
+                $output->writeln("事件:{$event_name},调用响应:{$value}失败");
+            } catch (\Throwable $exception){
                 $output->writeln("事件:{$event_name},调用响应:{$value}失败");
             }
         }
