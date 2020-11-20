@@ -25,7 +25,9 @@ class Event
         foreach ($event_action as $key => $value) {
             [$class,$action] = explode('@',$value['event_action']);
             try {
-                call_user_func([new $class,$action],$context);
+                $obj = new $class;
+                call_user_func([$obj,$action],$context);
+                unset($obj);
             } catch (\Error $exception){
                 $output->writeln("事件:{$event_name},调用响应:{$value}失败");
             } catch (\ErrorException $exception){
