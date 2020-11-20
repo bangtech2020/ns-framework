@@ -4,11 +4,12 @@
 namespace app\bangtech\demo\extend;
 
 
+
 class Index extends \helper\Internet\Controller
 {
     public function index()
     {
-        var_dump("hello");
-        return "hello one";
+        \helper\Di::getContainer()->get(\interfaces\Console\OutputInterface::class)->writeln("hello");
+        $this->response->write("hello one");
     }
 }

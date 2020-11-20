@@ -73,19 +73,14 @@ class Config implements ConfigInterface
         try {
             return self::getIndex($variable, $names, $default);
         }catch (ErrorException $exception){
-            var_dump("报错");
             return $default;
         } catch (\Error $exception){
-            var_dump("报错");
             return $default;
         } catch (ConsoleException $exception){
-            var_dump("报错");
             return $default;
         } catch (PromptException $exception){
-            var_dump("报错");
             return $default;
         } catch (\Exception $exception){
-            var_dump("报错");
             return $default;
         }
 

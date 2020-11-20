@@ -4,6 +4,8 @@
 namespace module\Internet;
 
 
+use helper\Di;
+use interfaces\Console\OutputInterface;
 use interfaces\Internet\ResponseInterface;
 use interfaces\Internet\RequestInterface;
 use module\Internet\WebServer\Route;
@@ -52,8 +54,7 @@ class WebService
                 } catch (\Exception $exception) {
                     $this->response->setStatus(500);
                     $this->response->end('500 Internal Server Error');
-                    var_dump("\033[1;31m500 Internal Server Error => {$exception->getMessage()}\033[0m");
-                    //$this->output->writeln("\033[1;31m500 Internal Server Error => {$exception->getMessage()}\033[0m");
+                    Di::getContainer()->get(OutputInterface::class)->error("500 Internal Server Error => {$exception->getMessage()}");
                     return;
                 }
                 break;
