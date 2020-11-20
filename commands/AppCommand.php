@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace commands;
 
+use helper\Event\Event;
 use Inhere\Console\Component\Formatter\HelpPanel;
 use Inhere\Console\Contract\InputInterface;
 use Inhere\Console\IO\Input;
@@ -16,55 +17,38 @@ class AppCommand extends CommandInterface
     protected static $name = 'app';
     protected static $description = 'Application development tool';
 
+
+
+    protected function configure(): void
+    {
+        $this->createDefinition()
+            ->addArgument('status',Input::ARG_REQUIRED,'应用工作状态 [start|stop|status|reload]')
+        ;
+
+    }
+
     /**
      * @inheritDoc
      */
     protected function execute($input, $output)
     {
-        HelpPanel::show([
-            HelpPanel::DESC => '请使用app:create 创建应用 或者 app:pack 打包应用',
-            HelpPanel::USAGE => 'app:{action} [action]=>create|pack'
-        ]);
-    }
+        $status = $input->getArgument('status');
 
+        switch ($status){
+            case 'start':
+                Event::process('app_start',$this);
+                break;
+            case 'stop':
+                Event::process('app_stop',$this);
+                break;
+            case 'status':
+                Event::process('app_status',$this);
+                break;
+            case 'reload':
+                Event::process('app_reload',$this);
+                break;
 
-    /**
-     * @var Input|InputInterface
-     */
-    public function createConfigure(): void
-    {
-        $this->createDefinition()
-            ->setDescription('Create an application');
-    }
-
-    /**
-     * @var Input|InputInterface
-     */
-    public function packConfigure(): void
-    {
-        $this->createDefinition()
-            ->setDescription("The application is packaged as a PHAR");
-    }
-
-
-    public function createCommand(): void
-    {
-        $this->output->writeln("应用创建");
-        //获得应用名称
-        $appName = $this->read('Enter the application name: ');
-
-        while (!$appName){
-            $appName = $this->read('Please!!! Enter the application name: ');
         }
-
-        $has_extension  = $this->confirm('Is there an extension? ');
-        $has_plugin     = $this->confirm('Is there a plug-in? ');
-        $has_command    = $this->confirm('Is there a command? ');
-        $this->output->writeln("App Name: {$appName}");
     }
 
-    public function packCommand(): void
-    {
-        $this->output->writeln("应用打包");
-    }
 }

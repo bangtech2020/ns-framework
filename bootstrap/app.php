@@ -159,9 +159,11 @@ class app
         //注册APP事件
         $extend_events = load::getEvents();
         foreach ($extend_events as $id => $extend_event) {
+            [$author,$identification] = explode('/',$id);
             foreach ($extend_event as $event_name => $events) {
                 //注册各类事件
                 foreach ($events as  $event) {
+                    $event =  'app\\'.$author . '\\'. $identification . '\\' . $event;
                     $listener->registered($event_name,$event);
                 }
             }

@@ -27,7 +27,10 @@ class Listener
         $this->table->insert(['event_name'=>$event_name,'event_action'=>$event_action]);
     }
 
-
+    /**
+     * @param $event_name
+     * @return array
+     */
     public function getEventAction($event_name)
     {
         return $this->table->select('event_name',$event_name);
