@@ -1,4 +1,7 @@
 <?php
+
+use helper\Env;
+
 /**
  * @param $name
  * @param null $default
@@ -6,7 +9,7 @@
  */
 function env($name, $default = null)
 {
-    return \system\app\Env::get($name, $default);
+    return Env::get($name, $default);
 }
 
 function function_enabled($function) {
