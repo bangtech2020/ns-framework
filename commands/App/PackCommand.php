@@ -56,6 +56,7 @@ class PackCommand extends CommandInterface
         // 将后缀名相关的文件打包
         $phar->buildFromDirectory($dir, "/.*/");
 
+        $phar->setSignatureAlgorithm(Phar::SHA512);
         $phar->stopBuffering();
 
 
