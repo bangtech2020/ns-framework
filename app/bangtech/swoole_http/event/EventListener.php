@@ -5,6 +5,7 @@ namespace app\bangtech\swoole_http\event;
 
 
 use app\bangtech\swoole_http\webServer\Service;
+use commands\AppCommand;
 use helper\Di;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
@@ -24,6 +25,7 @@ class EventListener
 
     /**
      * App启动之前事件
+     * @param AppCommand $context
      */
     public function app_start_before($context) :void
     {
@@ -32,6 +34,7 @@ class EventListener
 
     /**
      * App启动事件
+     * @param AppCommand $context
      */
     public function app_start($context) :void
     {
@@ -41,6 +44,7 @@ class EventListener
 
     /**
      * App启动之后事件
+     * @param AppCommand $context
      */
     public function app_start_after($context) :void
     {
@@ -50,6 +54,7 @@ class EventListener
 
     /**
      * App停止之前事件
+     * @param AppCommand $context
      */
     public function app_stop_before($context) :void
     {
@@ -58,6 +63,7 @@ class EventListener
 
     /**
      * App停止事件
+     * @param AppCommand $context
      */
     public function app_stop($context) :void
     {
@@ -67,6 +73,7 @@ class EventListener
 
     /*
      * App停止之后事件
+     * @param AppCommand $context
      */
     public function app_stop_after($context) :void
     {
