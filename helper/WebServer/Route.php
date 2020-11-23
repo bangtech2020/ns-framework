@@ -1,7 +1,7 @@
 <?php
 
 
-namespace module\Internet\WebServer;
+namespace helper\WebServer;
 
 
 use bootstrap\load;

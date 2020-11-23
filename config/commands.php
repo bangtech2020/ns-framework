@@ -2,6 +2,7 @@
 return [
     //APP 管理模块
     ['commands\\AppCommand',\helper\Console::HAS_COMMAND],
+    ['commands\\App\\WebServiceCommand',\helper\Console::HAS_COMMAND],
     ['commands\\App\\CreateCommand',\helper\Console::HAS_COMMAND],
     ['commands\\App\\PackCommand',\helper\Console::HAS_COMMAND],
     ['commands\\App\\InstallCommand',\helper\Console::HAS_COMMAND],

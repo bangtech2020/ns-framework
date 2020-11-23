@@ -82,7 +82,11 @@ class load
         }
 
         if (!is_file($phar_path)){
-            Di::getContainer()->get(OutputInterface::class)->warning("File not found for [{$phar_path}]");
+            try {
+                Di::getContainer()->get(OutputInterface::class)->warning("File not found for [{$phar_path}]");
+            }catch (\Throwable $exception){
+                var_dump("File not found for [{$phar_path}]");
+            }
         }
 
         if (is_file($phar_path) && is_file($file_phar)) require $file_phar;

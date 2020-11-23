@@ -1,7 +1,7 @@
 <?php
 
 
-namespace module\Internet;
+namespace helper\WebServer;
 
 
 use helper\Di;

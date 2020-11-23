@@ -22,7 +22,8 @@
         "inhere/console": "^3.1",
         "symfony/finder": "4.*",
         "nikic/fast-route": "2.0.x-dev",
-        "nicmart/string-template": "9999999-dev"
+        "nicmart/string-template": "9999999-dev",
+        "prince/swoole-think-orm": "9999999-dev"
     },
     "require-dev": {
         "humbug/box": "^3.8",

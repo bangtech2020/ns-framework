@@ -1,7 +1,7 @@
 <?php
 
 
-namespace module\Internet\WebServer;
+namespace helper\WebServer;
 
 
 class Response extends \helper\Internet\Response
