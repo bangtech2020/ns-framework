@@ -65,9 +65,12 @@ class load
 
         //重写Phar路径
         $file_phar = explode('/',$file);
-        if ($file_phar[0] == 'app'){
-            $file_phar[2] = $file_phar[2].'.phar';
+        if ($file_phar[0] != 'app'){
+            return;
         }
+
+        $file_phar[2] = $file_phar[2].'.phar';
+
         $phar_path = ROOT_PATH."/{$file_phar[0]}/{$file_phar[1]}/{$file_phar[2]}";
         $file_phar = implode('/',$file_phar);
 

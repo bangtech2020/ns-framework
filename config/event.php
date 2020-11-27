@@ -1,9 +1,9 @@
 <?php
 return [
     'app_start'=>[
-        \event\AppStartEventListener::class
+        \eventListener\AppStartEventListener::class
     ],
     'app_stop'=>[
-        \event\AppStopEventListener::class
+        \eventListener\AppStopEventListener::class
     ]
 ];

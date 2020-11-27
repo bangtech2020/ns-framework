@@ -1,8 +1,6 @@
 <?php
 
-
 namespace eventListener;
-
 
 use commands\AppCommand;
 use helper\Di;
