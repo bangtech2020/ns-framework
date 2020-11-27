@@ -8,18 +8,26 @@ namespace extend\Table;
  */
 class Table
 {
+
     /**
-     *
+     * int
      */
-    const TYPE_INT    = 1;
+    const TYPE_INT = 1;
+
     /**
-     *
+     * float
      */
-    const TYPE_FLOAT  = 2;
+    const TYPE_FLOAT = 2;
+
     /**
-     *
+     * string
      */
     const TYPE_STRING = 3;
+
+    /**
+     * object
+     */
+    const TYPE_OBJECT = 4;
 
     /**
      * @var int
@@ -39,8 +47,8 @@ class Table
      * @var array
      */
     protected $table = [
-        'column' => [] ,
-        'data'   => []
+        'column' => [],
+        'data' => []
     ];
 
 
@@ -88,20 +96,17 @@ class Table
     }
 
 
-
-
-
     /**
      * 创建列
      * @param string $name
      * @param int $type
      * @return bool
      */
-    public function column(string $name, int $type = Table::TYPE_STRING,bool $pk = false)
+    public function column(string $name, int $type = Table::TYPE_STRING, bool $pk = false)
     {
         //防止name被重复写
         foreach ($this->table['column'] as $key => $value) {
-            if ($value['name'] == $name){
+            if ($value['name'] == $name) {
                 return false;
             }
         }
@@ -109,7 +114,7 @@ class Table
         $this->table['column'][] = [
             'name' => $name,//名称
             'type' => $type,//类型
-            'pk'   => $pk //主键
+            'pk' => $pk //主键
         ];
         $this->getHasColumn(true);
         return true;
@@ -145,11 +150,11 @@ class Table
      */
     public function delect(string $name, $value)
     {
-        if (is_array($this->indexes[$name][$value])){
+        if (is_array($this->indexes[$name][$value])) {
             foreach ($this->indexes[$name][$value] as $index) {
                 unset($this->table['data'][$index]);
             }
-        }else{
+        } else {
             unset($this->table['data'][$this->indexes[$name][$value]]);
         }
         unset($this->indexes[$name][$value]);
@@ -174,12 +179,12 @@ class Table
      */
     public function find(string $name, $value, string $field = '*')
     {
-        if (!isset($this->indexes[$name][$value])){
+        if (!isset($this->indexes[$name][$value])) {
             return false;
         }
-        if (is_array($this->indexes[$name][$value])){
+        if (is_array($this->indexes[$name][$value])) {
             return $this->table['data'][$this->indexes[$name][$value][array_key_first($this->indexes[$name][$value])]];
-        }else{
+        } else {
             return $this->table['data'][$this->indexes[$name][$value]];
         }
     }
@@ -201,14 +206,14 @@ class Table
         $data = [];
 
         //检查需要获取的数据是否超出范围，是否合法
-        if (!isset($this->indexes[$name][$value]) || empty($this->indexes[$name][$value])){
+        if (!isset($this->indexes[$name][$value]) || empty($this->indexes[$name][$value])) {
             return [];
-        }elseif (empty($limit) || count($this->indexes[$name][$value]) < $limit){
+        } elseif (empty($limit) || count($this->indexes[$name][$value]) < $limit) {
             $limit = count($this->indexes[$name][$value]);
         }
 
         //唯一索引数据只有一条，直接返回
-        if ($pk){
+        if ($pk) {
             $data[0] = $this->table['data'][$this->indexes[$name][$value]];
             return $data;
         }
@@ -217,7 +222,7 @@ class Table
         $i = 0;
         foreach ($this->indexes[$name][$value] as $index => $str) {
             //采用计数器方式返回数据
-            if ($i >= $limit){
+            if ($i >= $limit) {
                 return $data;
             }
             $data[] = $this->table['data'][$this->indexes[$name][$value][$i]];
@@ -241,20 +246,20 @@ class Table
      */
     protected function valueFiltration($value, int $type)
     {
-        if (is_array($value)){
+        if (is_array($value)) {
             foreach ($value as $key => &$item) {
-                $item = $this->valueFiltration($item,$type);
+                $item = $this->valueFiltration($item, $type);
             }
             return $value;
         }
 
-        if ($type == Table::TYPE_INT){
+        if ($type == Table::TYPE_INT) {
             return intval($value);
-        }elseif ($type == Table::TYPE_FLOAT){
+        } elseif ($type == Table::TYPE_FLOAT) {
             return floatval($value);
-        }elseif ($type == Table::TYPE_STRING){
+        } elseif ($type == Table::TYPE_STRING) {
             return strval($value);
-        }else{
+        } else {
             return $value;
         }
     }
@@ -265,21 +270,21 @@ class Table
      * @param $data
      * @param array $column
      */
-    protected function setIndexs(int $index, $data, $column) :void
+    protected function setIndexs(int $index, $data, $column): void
     {
 
-        if (is_string($data) || is_numeric($data)){
-            if ($column['pk'] !== true){
+        if (is_string($data) || is_numeric($data)) {
+            if ($column['pk'] !== true) {
                 $this->indexes[$column['name']][$data][] = $index;
-            }else{
+            } else {
                 $this->indexes[$column['name']][$data] = $index;
             }
-        }elseif (is_array($data) && $column['pk'] !== true) {
+        } elseif (is_array($data) && $column['pk'] !== true) {
             foreach ($data as $key => $datum) {
-                $this->setIndexs($index, $datum,$column);
+                $this->setIndexs($index, $datum, $column);
             }
-        } elseif(is_array($data) && $column['pk'] === true) {
-            $this->setIndexs($index,md5(json_encode($data)),$column);
+        } elseif (is_array($data) && $column['pk'] === true) {
+            $this->setIndexs($index, md5(json_encode($data)), $column);
         }
     }
 
@@ -290,7 +295,7 @@ class Table
      */
     protected function getHasColumn($force = false)
     {
-        if (count($this->hasColumn) == 0 || $force == true){
+        if (count($this->hasColumn) == 0 || $force == true) {
             $this->hasColumn = array_column($this->table['column'], 'name');
         }
         return $this->hasColumn;

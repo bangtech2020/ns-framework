@@ -7,6 +7,7 @@
     "brand",
     "commands",
     "config",
+    "eventListener",
     "extend",
     "functions",
     "helper",

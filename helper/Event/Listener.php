@@ -15,7 +15,7 @@ class Listener
     {
         $this->table = new Table();
         $this->table->column('event_name' , Table::TYPE_STRING);
-        $this->table->column('event_action',Table::TYPE_STRING);
+        $this->table->column('event_action',Table::TYPE_OBJECT);
     }
 
 

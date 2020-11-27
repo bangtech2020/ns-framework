@@ -1,17 +1,17 @@
 <?php
 
 
-namespace commands\App\WebService;
+namespace module\Internet;
 
+
+use helper\Env;
 use helper\WebServer\Server;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Util\Show;
-use Throwable;
 
 class Service
 {
-
     private $input;
     private $output;
     private $runtime = ['service' => 'Swoole HTTP', 'host' => '0.0.0.0', 'port' => 0, 'status' => false, 'pid' => '-'];
@@ -41,8 +41,10 @@ class Service
         file_put_contents(ROOT_PATH . '/runtime/webserver.pid', serialize($this->runtime));
     }
 
-    public function start($host, $port)
+    public function start()
     {
+        $host = Env::get('HTTP.HOST','0.0.0.0');
+        $port = Env::get('HTTP.PORT','8008');
         $this->output->info("Start Web Server ...");
 
         if ($this->runtime['status'] !== false) {

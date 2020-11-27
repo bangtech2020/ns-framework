@@ -154,6 +154,15 @@ class app
          */
         $listener = Di::getContainer()->get(Listener::class);
 
+        $system_events = Config::get('event');
+
+        foreach ($system_events as $event_name => $event_lists) {
+            foreach ($event_lists as  $event) {
+                //注册各类事件
+                $listener->registered($event_name,new $event);
+            }
+        }
+
         //注册APP事件
         $extend_events = load::getEvents();
         foreach ($extend_events as $id => $extend_event) {

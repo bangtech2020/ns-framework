@@ -3,10 +3,9 @@
 
 namespace commands\App;
 
-
-use commands\App\WebService\Service;
 use helper\Console\CommandInterface;
 use Inhere\Console\IO\Input;
+use module\Internet\Service;
 
 class WebServiceCommand extends CommandInterface
 {
@@ -36,7 +35,7 @@ class WebServiceCommand extends CommandInterface
         $service = new Service($this->input, $this->output);
         switch ($status) {
             case 'start':
-                $service->start('0.0.0.0', 8008);
+                $service->start();
                 break;
             case 'stop':
                 $service->stop();

@@ -33,6 +33,7 @@
         "psr-4": {
             "bootstrap\\" : "bootstrap/",
             "commands\\" : "commands/",
+            "eventListener\\" : "eventListener/",
             "extend\\" : "extend/",
             "helper\\": "helper/",
             "interfaces\\": "interfaces/",
