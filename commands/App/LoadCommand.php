@@ -22,8 +22,7 @@ class LoadCommand extends CommandInterface
     {
         $this->createDefinition()
             ->addArgument('path',Input::ARG_OPTIONAL,'{atuho}/{id}','')
-            ->addOption('has_dev',Input::OPT_BOOLEAN,false)
-        ;
+            ->addOption('has_dev',Input::OPT_BOOLEAN,false);
     }
 
     /**
@@ -33,7 +32,7 @@ class LoadCommand extends CommandInterface
     protected function execute($input, $output)
     {
         $app_name = $input->getArgument('path','');
-        $has_dev = $input->getOption('has_dev');
+        $has_dev = $input->getOption('has_dev',false);
         if ($app_name !== ''){
            $app_name = [$app_name];
         }else{
@@ -47,7 +46,7 @@ class LoadCommand extends CommandInterface
         }
 
         foreach ($app_name as $key => $value) {
-            $this->loadApp($key,$has_dev);
+            $this->loadApp($value,$has_dev);
         }
     }
 
@@ -66,6 +65,7 @@ class LoadCommand extends CommandInterface
         }
 
         try {
+            $this->output->writeln($config_file);
             $app_config = json_decode(file_get_contents($config_file),true);
         }catch (\ErrorException $exception){
             $this->output->error("App configuration file failed to read!!!");
