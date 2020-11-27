@@ -1,0 +1,14 @@
+{
+  "name": "bangtech/esn_connect",
+  "author": "bangtech",
+  "identification": "esn_connect",
+  "version": "0.0.1",
+  "description": "",
+  "copyright": "",
+  "event": {
+    "app_start": ["event\\EventListener@app_start"],
+    "app_stop" : ["event\\EventListener@app_stop"]
+  },
+  "extend": [],
+  "command": []
+}
