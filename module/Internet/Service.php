@@ -36,7 +36,7 @@ class Service
         }
     }
 
-    public function __destruct()
+    public function pushConfig()
     {
         file_put_contents(ROOT_PATH . '/runtime/webserver.pid', serialize($this->runtime));
     }
@@ -67,6 +67,8 @@ class Service
 
         Show::table($runtime_table, 'Service Table');
 
+        $this->pushConfig();
+
         //$this->output->table($runtime_table);
     }
 
@@ -86,6 +88,7 @@ class Service
             $this->runtime['status'] = false;
             $this->runtime['pid'] = '-';
         }
+        $this->pushConfig();
     }
 
     public function reload()
