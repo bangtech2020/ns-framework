@@ -1,4 +1,8 @@
-###1.启动
+### 打包
+```shell script
+vendor/bin/box compile
+```
+###启动
 ```shell script
 # Phar包启动方式
 cd build
