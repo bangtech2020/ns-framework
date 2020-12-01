@@ -2,7 +2,7 @@
 ```shell script
 vendor/bin/box compile
 ```
-###启动
+### 启动
 ```shell script
 # Phar包启动方式
 cd build
