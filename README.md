@@ -181,16 +181,13 @@ DB_DEBUG = true
 [HTTP]
 HOST = 0.0.0.0
 PORT = 8008
-
 ```
 ### 3. 框架启动
 
 #### 启动
 
 ```shell script
-
 php bin/ns.php app start
-
 ```
 
 #### 停止
@@ -202,9 +199,7 @@ php bin/ns.php app stop
 ### 4. 框架打包
 
 ```shell script
-
 vendor/bin/box compile
-
 ```
 
 ## 应用开发说明
@@ -214,13 +209,11 @@ vendor/bin/box compile
 
 ### 1. 应用创建
 ```shell script
-
 # 开发框架
 php bin/ns.php app:create
 
 # 正式版Phar包
 php ns.phar app:create
-
 ```
 
 ![](doc/static/F40E8F6C-68B0-4d77-BC37-AE7DD87A85C1.png)
@@ -230,7 +223,6 @@ php ns.phar app:create
 #### 目录结构
 
 ```markdown
-
 app                                   app目录
 ├─bangtech                            作者
 │  ├─test                             应用
@@ -242,13 +234,11 @@ app                                   app目录
 │  │ 
 │  └─ ...                             其他更多应用
 └─ ...                                其他更多作者
-
 ```
 
 #### app.json说明
 
 ```json
-
 {
   "name": "bangtech/test",
   "author": "bangtech",
@@ -271,7 +261,6 @@ app                                   app目录
     {"class": "command\\WebServerCommand", "mode": "HAS_COMMAND"}
   ]
 }
-
 ```
 
 - name 完整包名
@@ -307,12 +296,10 @@ php bin/ns.php app:pack bangtech:test
 ## 启动
 
 ```shell script
-
 # Phar包启动方式
 
 cd build
 php ns.phar app start
-
 ```
 
 ![](doc/static/start.jpg)
@@ -321,9 +308,7 @@ php ns.phar app start
 
 
 ```shell script
-
 php ns.phar app stop
-
 ```
 
 
