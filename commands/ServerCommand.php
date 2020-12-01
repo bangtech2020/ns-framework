@@ -4,11 +4,11 @@
 namespace commands;
 
 
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 
-class ServerCommand extends CommandInterface
+class ServerCommand extends Command
 {
 
     protected static $name = 'server';

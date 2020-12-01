@@ -3,11 +3,11 @@
 
 namespace commands\App;
 
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use Inhere\Console\IO\Input;
 use module\Internet\Service;
 
-class WebServiceCommand extends CommandInterface
+class WebServiceCommand extends Command
 {
 
     protected static $name = 'app:web';

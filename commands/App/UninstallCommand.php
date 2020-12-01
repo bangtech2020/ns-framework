@@ -4,9 +4,9 @@
 namespace commands\App;
 
 
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 
-class UninstallCommand extends CommandInterface
+class UninstallCommand extends Command
 {
 
     protected static $name = 'app:uninstall';

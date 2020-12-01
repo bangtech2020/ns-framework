@@ -5,13 +5,13 @@ namespace app\${{author}}\${{app_id}}\command;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 
 /**
  * Class ${{file_name}}
  * @package commands
  */
-class ${{file_name}} extends CommandInterface
+class ${{file_name}} extends Command
 {
     // 命令名称
     protected static $name = '${{author}}:${{app_id}}:demo';

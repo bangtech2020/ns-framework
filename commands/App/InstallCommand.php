@@ -4,9 +4,9 @@
 namespace commands\App;
 
 
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 
-class InstallCommand extends CommandInterface
+class InstallCommand extends Command
 {
 
     protected static $name = 'app:install';

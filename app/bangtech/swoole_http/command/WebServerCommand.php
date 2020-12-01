@@ -5,11 +5,11 @@ namespace app\bangtech\swoole_http\command;
 
 
 use app\bangtech\swoole_http\webServer\Service;
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 
-class WebServerCommand extends CommandInterface
+class WebServerCommand extends Command
 {
     protected static $name = 'swoole_http';
 

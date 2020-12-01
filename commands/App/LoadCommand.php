@@ -4,10 +4,10 @@
 namespace commands\App;
 
 
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use Inhere\Console\IO\Input;
 
-class LoadCommand extends CommandInterface
+class LoadCommand extends Command
 {
 
     protected static $name = 'app:load';

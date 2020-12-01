@@ -4,12 +4,10 @@
 namespace commands\Server;
 
 
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use Inhere\Console\IO\Input;
-use Inhere\Console\IO\Output;
-use module\Internet\WebServer;
 
-class InternetCommand extends CommandInterface
+class InternetCommand extends Command
 {
     protected static $name = 'server:internet';
     protected static $description = 'Internet server management';

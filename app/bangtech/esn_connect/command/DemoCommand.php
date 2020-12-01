@@ -5,13 +5,13 @@ namespace app\bangtech\esn_connect\command;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 
 /**
  * Class DemoCommand
  * @package commands
  */
-class DemoCommand extends CommandInterface
+class DemoCommand extends Command
 {
     // 命令名称
     protected static $name = 'bangtech:esn_connect:demo';

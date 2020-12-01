@@ -7,10 +7,10 @@ namespace commands\App;
 use FilesystemIterator;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use Phar;
 
-class PackCommand extends CommandInterface
+class PackCommand extends Command
 {
 
     protected static $name = 'app:pack';

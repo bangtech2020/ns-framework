@@ -4,13 +4,13 @@ namespace app\bangtech\demo\command;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 
 /**
  * Class TestCommand
  * @package commands
  */
-class DTestCommand extends CommandInterface
+class DTestCommand extends Command
 {
     // 命令名称
     protected static $name = 'dtest';

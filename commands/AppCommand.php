@@ -9,10 +9,10 @@ use Inhere\Console\Contract\InputInterface;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\InputDefinition;
 use Inhere\Console\IO\Output;
-use helper\Console\CommandGroupInterface;
-use helper\Console\CommandInterface;
+use helper\Console\CommandGroup;
+use helper\Console\Command;
 
-class AppCommand extends CommandInterface
+class AppCommand extends Command
 {
     protected static $name = 'app';
     protected static $description = 'Application development tool';

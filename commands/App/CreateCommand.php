@@ -3,13 +3,10 @@
 
 namespace commands\App;
 
-
-use Inhere\Console\IO\Input;
-use Inhere\Console\IO\Output;
-use helper\Console\CommandInterface;
+use helper\Console\Command;
 use StringTemplate\Engine;
 
-class CreateCommand extends CommandInterface
+class CreateCommand extends Command
 {
 
     protected static $name = 'app:create';
