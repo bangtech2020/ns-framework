@@ -21,19 +21,25 @@
 
 > 上线后请运行Phar包
 
-### 1. 框架结构
+### 1. 框架结构(开发版)
 ```markdown
 www  WEB部署目录（或者子目录）
 ├─app                                应用目录
 │  └─ ...                            
+│
 ├─bin                                应用入口
 │  └─ns.php                          应用启动入口文件
+│
 ├─bootstrap                          项目启动引导
 │  ├─app.php                         框架引导实例化入口
 │  └─load.php                        框架相关配置文件加载入口
+│  
 ├─brand                              品牌Logo文件夹
 │  └─ns_logo.text                    框架品牌Logo文本格式
+│  
 ├─build                              框架打包生成目录
+│  └─ ...                       
+│ 
 ├─commands                           框架自带命令行
 │  ├─App
 │  │  ├─template
@@ -63,6 +69,7 @@ www  WEB部署目录（或者子目录）
 │  └─route.php                        框架路由配置
 │
 ├─doc                                 文档
+│
 ├─eventListener                       框架监听事件
 │  ├─AppStartEventListener.php        框架启动监听事件
 │  └─AppStopEventListener.php         框架停止监听事件
@@ -97,6 +104,12 @@ www  WEB部署目录（或者子目录）
 │  │  └─Response.php                  响应抽象类
 │  │
 │  ├─WebServer                        Web服务
+│  │  ├─Request.php                   请求对象助手
+│  │  ├─Response.php                  响应对象助手
+│  │  ├─Route.php                     路由对象
+│  │  ├─Server.php                    Web服务对象
+│  │  └─WebService.php                Web服务绑定对象
+│  │ 
 │  ├─Config.php                       配置助手
 │  ├─Console.php                      控制台助手
 │  ├─Db.php                           数据库助手
@@ -145,22 +158,6 @@ www  WEB部署目录（或者子目录）
 └─README.md                           README 文件
 ```
 ### 2. 框架配置
-### 3. 框架启动
-### 4. 框架打包
-
-## 应用说明
-> 注意：应用打包成功后需要放在对应的目录
-
-> 正在计划支持自动包依赖关系
-
-1. 应用创建
-2. 应用结构
-3. 应用打包
-4. 应用发布
-
-
-## .env文件配置
-
 ```ini
 [APP]
 #是否是开发模式
@@ -186,6 +183,110 @@ HOST = 0.0.0.0
 PORT = 8008
 
 ```
+### 3. 框架启动
+
+#### 启动
+
+```shell script
+php bin/ns.php app start
+```
+
+#### 停止
+
+```shell script
+php bin/ns.php app stop
+```
+
+### 4. 框架打包
+
+```shell script
+vendor/bin/box compile
+```
+
+## 应用开发说明
+> 注意：应用打包成功后需要放在对应的目录
+
+> 正在计划支持自动包依赖关系
+
+### 1. 应用创建
+```shell script
+# 开发框架
+php bin/ns.php app:create
+
+# 正式版Phar包
+php ns.phar app:create
+```
+![](doc/static/F40E8F6C-68B0-4d77-BC37-AE7DD87A85C1.png)
+### 2. 应用结构
+#### 目录结构
+```markdown
+app                                   app目录
+├─bangtech                            作者
+│  ├─test                             应用
+│  │  ├─command                       控制台命令
+│  │  │  └─DemoCommand.php            Demo命令
+│  │  ├─extend                        扩展HTTP API
+│  │  │  └─Index.php                  Demo扩展
+│  │  └─app.json                      app.json
+│  │ 
+│  └─ ...                             其他更多应用
+└─ ...                                其他更多作者
+```
+
+#### app.json说明
+```json
+{
+  "name": "bangtech/test",
+  "author": "bangtech",
+  "identification": "test",
+  "version": "0.0.1",
+  "description": "",
+  "copyright": "",
+  "event": {
+    "app_start": ["event\\EventListener@app_start"],
+    "app_stop" : ["event\\EventListener@app_stop"]
+  },
+  "extend": [
+    {
+      "mode": "GET",
+      "route": "index/abc",
+      "handler": "extend\\Index@index"
+    }
+  ],
+  "command": [
+    {"class": "command\\WebServerCommand", "mode": "HAS_COMMAND"}
+  ]
+}
+```
+- name 完整包名
+- author 作者
+- identification 标识
+- version 版本(x.x.x)
+- description 描述
+- copyright 版权
+- event 监听事件
+    - 事件名
+         - array[] 事件类位置和方法，也可以直接一个类文件注册成一个事件
+- extend 扩展页面
+    - array[]
+        - mode 模式[GET|POST|OPTIONS|HEAD|PUT|DELETE|TRACE|CONNECT]
+        - route 路由地址(例：index/abc 实际地址是 /bangtech/test/index/abc)
+        - handler 类位置和方法(例：extend\\Index@index)
+- command 扩展控制台
+    - array
+        - class 类名位置(相对应用)
+        - mode 模式[HAS_COMMAND|HAS_GROUP]
+
+### 3. 应用打包
+```shell script
+php bin/ns.php app:pack bangtech:test
+```
+
+## 系统部署说明
+### 安装
+### 配置
+### 启动
+### 应用安装
 
 ## 启动
 
