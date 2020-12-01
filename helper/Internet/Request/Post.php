@@ -4,7 +4,7 @@
 namespace helper\Internet\Request;
 
 
-use interfaces\Request\PostInterface;
+use interfaces\Internet\Request\PostInterface;
 
 class Post extends Param implements PostInterface
 {

@@ -4,7 +4,8 @@
 namespace helper\Internet\Request;
 
 
-use interfaces\Request\GetInterface;
+
+use interfaces\Internet\Request\GetInterface;
 
 class Get extends Param implements GetInterface
 {

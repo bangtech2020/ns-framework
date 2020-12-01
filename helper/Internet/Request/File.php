@@ -4,16 +4,17 @@
 namespace helper\Internet\Request;
 
 
-use interfaces\Request\UploadFileInterface;
 
-class File implements UploadFileInterface
+use interfaces\Internet\Request\FileInterface;
+
+class File implements FileInterface
 {
     protected $name = '';
     protected $type = '';
     protected $tmp_name = '';
     protected $size = '';
 
-    public function __construct($name = '', $type = '', $tmp_name = '', $size = '')
+    public function __construct($name = '',$type = '',$tmp_name = '',$error = '',$size = '')
     {
         $this->name = $name;
         $this->type = $type;
@@ -52,4 +53,9 @@ class File implements UploadFileInterface
      {
          return $this->size;
      }
- }
+
+    public function getError()
+    {
+        // TODO: Implement getError() method.
+    }
+}

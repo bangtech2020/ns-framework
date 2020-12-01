@@ -4,7 +4,7 @@
 namespace helper\Internet\Request;
 
 
-use interfaces\Request\ServerInterface;
+use interfaces\Internet\Request\ServerInterface;
 
 class Server extends Param implements ServerInterface
 {

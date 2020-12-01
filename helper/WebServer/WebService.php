@@ -8,7 +8,6 @@ use helper\Di;
 use interfaces\Console\OutputInterface;
 use interfaces\Internet\ResponseInterface;
 use interfaces\Internet\RequestInterface;
-use module\Internet\WebServer\Route;
 
 class WebService
 {
