@@ -190,6 +190,8 @@ PORT = 8008
 php bin/ns.php app start
 ```
 
+![](doc/static/start.jpg)
+
 #### 停止
 
 ```shell script
