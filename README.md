@@ -203,7 +203,8 @@ php bin/ns.php app stop
 ```shell script
 vendor/bin/box compile
 ```
-
+![](doc/static/5E513B2A-5C80-4ad7-8643-6C128045BD49.png)
+![](doc/static/B8A948E4-85EB-4ea8-9B2B-564E9635408C.png)
 ## 应用开发说明
 > 注意：应用打包成功后需要放在对应的目录
 
