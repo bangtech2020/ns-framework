@@ -16,12 +16,12 @@
 3. 数据库模型
 4. 数据库模型生成
 
-## 框架说明
+## 框架说明(开发版)
 > 注意：框架开发后需要打包成Pahr运行文件
 
 > 上线后请运行Phar包
 
-### 1. 框架结构(开发版)
+### 1. 框架结构
 ```markdown
 www  WEB部署目录（或者子目录）
 ├─app                                应用目录
@@ -284,7 +284,7 @@ app                                   app目录
 
 ### 3. 应用打包
 ```shell script
-php bin/ns.php app:pack bangtech:test
+php bin/ns.php app:pack bangtech/test
 ```
 
 ## 系统部署说明

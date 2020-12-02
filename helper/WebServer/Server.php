@@ -3,6 +3,7 @@
 
 namespace helper\WebServer;
 
+use bootstrap\load;
 use extend\Table\Table;
 use helper\Config;
 use helper\Di;
@@ -17,7 +18,7 @@ class Server
 
     protected $host = '';
     protected $port = 0;
-    protected $on = ['Start', 'Shutdown', 'Connect', 'Close','Request','Task'];
+    protected $on = ['Start', 'Shutdown', 'Connect', 'Close', 'Request', 'Task', 'WorkerStart'];
     protected $options = [
         'task_worker_num' => 4,
         'document_root'=>ROOT_PATH.'/public',
@@ -56,6 +57,19 @@ class Server
      */
     public function onStart(\Swoole\Server $server, ...$args)
     {
+    }
+
+
+    /**
+     * @param \Swoole\Server $server
+     * @param int $workerId
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function onWorkerStart(\Swoole\Server $server, int $workerId)
+    {
+        load::reload();
+        Route::reload();
     }
 
     /**
@@ -144,12 +158,13 @@ class Server
     }
 
 
-
     /**
      * @param $has_files_count
      * @param Table $table
      * @param array $manage_path
      * @return bool
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
     protected function checkReload($has_files_count, $table, $manage_path)
     {

@@ -18,7 +18,7 @@ class Route implements RouteInterface
 
     public function __construct()
     {
-        $this->init();
+        self::init();
     }
 
     public static function __make()
@@ -26,7 +26,7 @@ class Route implements RouteInterface
         new static();
     }
 
-    protected function init()
+    protected static function init()
     {
         self::$dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $routeCollector) {
 
@@ -60,6 +60,14 @@ class Route implements RouteInterface
 
 
         });
+    }
+
+    /**
+     * 重写Reload路由
+     */
+    public static function reload()
+    {
+        self::init();
     }
 
     public static function dispatch($httpMethod, $uri)

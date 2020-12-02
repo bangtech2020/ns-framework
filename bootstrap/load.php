@@ -100,11 +100,16 @@ class load
         //注册未定义的APP
         spl_autoload_register([load::class,'autoload']);
         self::$path = $path;
-        $this->init();
+        self::init();
         return self::class;
     }
 
-    public function init() :void
+    public static function reload()
+    {
+        self::init();
+    }
+
+    private static function init() :void
     {
         if (!is_dir(self::$path)) {
             self::$apps = [];
@@ -125,7 +130,7 @@ class load
 
         foreach ($packages as $id => $package) {
             self::$commands[$id] = $package['setting']['command'];
-            self::$events[$id]  = $package['setting']['event'];
+            self::$events[$id]   = $package['setting']['event'];
             self::$routes[$id]   = $package['setting']['extend'];
         }
 

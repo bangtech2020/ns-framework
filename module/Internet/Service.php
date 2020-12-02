@@ -9,6 +9,7 @@ use helper\WebServer\Server;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Util\Show;
+use Throwable;
 
 class Service
 {

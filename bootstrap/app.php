@@ -144,6 +144,8 @@ class app
      * @param Application $app
      * @param Input $input
      * @param Output $output
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
     public function registerEventListener(\Inhere\Console\Application $app,Input $input,Output $output)
     {
