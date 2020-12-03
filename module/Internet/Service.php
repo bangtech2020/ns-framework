@@ -9,7 +9,6 @@ use helper\WebServer\Server;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Inhere\Console\Util\Show;
-use Throwable;
 
 class Service
 {
@@ -48,9 +47,15 @@ class Service
         $port = Env::get('HTTP.PORT','8008');
         $this->output->info("Start Web Server ...");
 
-        if ($this->runtime['status'] !== false) {
+        $force = $this->input->getOption('force',false);
+
+        if ($this->runtime['status'] !== false && $force == false) {
             $this->output->error("Network not stopped!!!");
             return;
+        }
+
+        if ($force == true){
+            $this->output->warning("应用网络强制启动!");
         }
 
         $process = new \Swoole\Process(function () use ($host, $port) {
@@ -82,8 +87,13 @@ class Service
         }
 
         try {
-            $ret = \Swoole\Process::kill(intval($this->runtime['pid']));
-        } catch (Throwable $exception){}
+            $ret = true;
+            if (\Swoole\Process::kill(intval($this->runtime['pid']),0)){
+                $ret = \Swoole\Process::kill(intval($this->runtime['pid']));
+            }
+        } catch (\Throwable $exception){
+            $this->output->writeln('抓到错误');
+        }
 
         if ($ret) {
             $this->runtime['status'] = false;

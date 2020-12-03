@@ -23,6 +23,7 @@ class AppCommand extends Command
     {
         $this->createDefinition()
             ->addArgument('status',Input::ARG_REQUIRED,'应用工作状态 [start|stop|status|reload]')
+            ->addOption('force', 'f', Input::OPT_BOOLEAN,'是否强制启动');
         ;
 
     }
