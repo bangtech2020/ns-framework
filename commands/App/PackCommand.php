@@ -31,7 +31,6 @@ class PackCommand extends Command
         $output->writeln("The application package");
         $app_path = $input->getArgument('path');
 
-        $exts = ['php'];// 需要打包的文件后缀, twig是模版文件, 你还可以安需加入html等后缀
         [$author,$identification] =  explode('/',$app_path);
 
         $dir = ROOT_PATH."/app/{$app_path}";// 需要打包的目录
