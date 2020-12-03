@@ -281,7 +281,7 @@ app                                   app目录
         - route 路由地址(例：index/abc 实际地址是 /bangtech/test/index/abc)
         - handler 类位置和方法(例：extend\\Index@index)
 - command 扩展控制台
-    - array
+    - array[]
         - class 类名位置(相对应用)
         - mode 模式[HAS_COMMAND|HAS_GROUP]
 
