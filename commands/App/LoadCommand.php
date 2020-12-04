@@ -22,7 +22,7 @@ class LoadCommand extends Command
     {
         $this->createDefinition()
             ->addArgument('path', Input::ARG_OPTIONAL, '{atuho}/{id}', '')
-            ->addOption('has_dev', '', Input::OPT_BOOLEAN, '是否是开发模式');
+            ->addOption('has_dev', 'dev', Input::OPT_BOOLEAN, '开发模式');
     }
 
     /**
