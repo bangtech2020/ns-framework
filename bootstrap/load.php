@@ -98,6 +98,8 @@ class load
         //注册未定义的APP
         spl_autoload_register([load::class, 'autoload']);
         self::$path = $path;
+        //清空文件夹
+        delectFileAll(ROOT_PATH.'/public');
         self::init();
         return self::class;
     }

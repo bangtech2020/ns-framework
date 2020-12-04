@@ -96,7 +96,6 @@ class Service
         }
 
         if ($ret) {
-            delectFileAll(ROOT_PATH.'/public');
             $this->runtime['status'] = false;
             $this->runtime['pid'] = '-';
         }
