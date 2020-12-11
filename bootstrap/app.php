@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace bootstrap;
 
 use helper\Config;
+use helper\Db;
 use helper\Di;
 use helper\Env;
 use helper\Event\Listener;
@@ -27,6 +28,9 @@ class app
         'root_path' => '',
     ];
 
+    protected $input;
+    protected $output;
+
     public function __construct()
     {
 
@@ -34,10 +38,10 @@ class app
         //确定是否在Phar包里面
         if (preg_match('/^phar:\/\/.*/', __FILE__)) {
             !defined('ROOT_PATH') && define('ROOT_PATH', dirname(Phar::running(false), 1));
-            !defined('HAS_DEV') && define('HAS_DEV', false);
+            !defined('HAS_DEV')   && define('HAS_DEV', false);
         } else {
             !defined('ROOT_PATH') && define('ROOT_PATH', dirname(__DIR__, 1));
-            !defined('HAS_DEV') && define('HAS_DEV', true);
+            !defined('HAS_DEV')   && define('HAS_DEV', true);
         }
         $this->config['base_path'] = BASE_PATH;
         $this->config['root_path'] = ROOT_PATH;
@@ -55,10 +59,17 @@ class app
     {
         //首先初始化容器
         Di::__make();
+        $this->input = new Input;
+        $this->output = new Output;
+        Di::getContainer()->set(InputInterface::class,$this->input);
+        Di::getContainer()->set(OutputInterface::class,$this->output);
+
+
         Env::__make(ROOT_PATH . '/.env');
         Config::__make(BASE_PATH . '/config', 'php');
         load::__make(ROOT_PATH . "/app");
         Route::__make();
+        Db::__make();
     }
 
     public function start()
@@ -71,14 +82,10 @@ class app
             'rootPath' => dirname(__DIR__)
         ];
 
-        $input = new Input;
-        $output = new Output;
 
-        Di::getContainer()->set(InputInterface::class,$input);
-        Di::getContainer()->set(OutputInterface::class,$output);
 
         // 通常无需传入 $input $output ，会自动创建
-        $app = new Application($meta, $input, $output);
+        $app = new Application($meta, $this->input, $this->output);
         $app->setLogo($this->getTextLogo());
 
         //注册系统命令集
@@ -95,8 +102,8 @@ class app
 
         }
 
-        $this->registerCommand($app,$input,$output);
-        $this->registerEventListener($app,$input,$output);
+        $this->registerCommand($app,$this->input,$this->output);
+        $this->registerEventListener($app,$this->input,$this->output);
 
         $app->run();
     }

@@ -7,6 +7,8 @@ namespace helper\WebServer;
 use bootstrap\load;
 use FastRoute\Dispatcher;
 use helper\Config;
+use helper\Di;
+use interfaces\Console\OutputInterface;
 use interfaces\Internet\RouteInterface;
 
 class Route implements RouteInterface
@@ -53,7 +55,12 @@ class Route implements RouteInterface
                 [$author,$identification] = explode('/',$id);
                 $routeCollector->addGroup("/{$author}/{$identification}/", function (\FastRoute\RouteCollector $r) use ($extend_route,$id,$author,$identification) {
                     foreach ($extend_route as $value) {
-                        $r->addRoute($value['mode'], $value['route'], "app\\{$author}\\{$identification}\\{$value['handler']}");
+                        try {
+                            $r->addRoute($value['mode'], $value['route'], "app\\{$author}\\{$identification}\\{$value['handler']}");
+                        }catch (\Throwable $exception){
+                            //Di::getContainer()->get(OutputInterface::class)->error("{$exception->getMessage()}\nLine:{$exception->getLine()}\n{$exception->getTraceAsString()}");
+                            Di::getContainer()->get(OutputInterface::class)->warning("[无法注册] {$value['mode']}, {$value['route']} 已经被注册");
+                        }
                     }
                 });
             }

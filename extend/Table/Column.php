@@ -8,11 +8,11 @@ namespace extend\Table;
 class Column
 {
     protected $hasColumn = [];
-
     protected $table = [
         'column' => [] ,
         'data'   => []
     ];
+
     /**
      * 创建列
      * @param string $name
@@ -35,5 +35,27 @@ class Column
         ];
         $this->getHasColumn(true);
         return true;
+    }
+
+    /**
+     * 强制刷新
+     * @param bool $force
+     * @return array
+     */
+    public function getHasColumn($force = false)
+    {
+        if (count($this->hasColumn) == 0 || $force == true){
+            $this->hasColumn = array_column($this->table['column'], 'name');
+        }
+        return $this->hasColumn;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getTable(): array
+    {
+        return $this->table;
     }
 }

@@ -36,6 +36,7 @@ class WebService
             case \FastRoute\Dispatcher::NOT_FOUND:
                 $this->response->setStatus(404);
                 $this->response->end('404 Not Found');
+                Di::getContainer()->get(OutputInterface::class)->warning('请求类型['.$this->request->getMethod().'] URI['.$this->request->getUri()."] 请检查是否app:load注册");
                 break;
             case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $this->response->setStatus(405);
@@ -50,10 +51,12 @@ class WebService
                         $this->response->setStatus(200);
                         $this->response->end($result);
                     }
-                } catch (\Exception $exception) {
+                } catch (\RuntimeException $exception){
+
+                } catch (\Throwable $exception) {
                     $this->response->setStatus(500);
                     $this->response->end('500 Internal Server Error');
-                    Di::getContainer()->get(OutputInterface::class)->error("500 Internal Server Error => {$exception->getMessage()}");
+                    Di::getContainer()->get(OutputInterface::class)->error("500 Internal Server Error \nCode:{$exception->getCode()} Line:{$exception->getLine()} \n{$exception->getMessage()} \n{$exception->getTraceAsString()}");
                     return;
                 }
                 break;

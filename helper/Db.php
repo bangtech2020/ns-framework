@@ -81,9 +81,13 @@ class Db
             // 数据库调试模式
             'debug'    => Config::get('database.default.debug',false),
         ];
-
         return \think\facade\Db::connect($config);
     }
+
+    public static function __make(){
+        return new static();
+    }
+
     public static function __callStatic($name, $arguments)
     {
         $class = "\\think\\facade\\Db";
