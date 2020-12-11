@@ -1,0 +1,1 @@
+{"name":"bangtech/framework_ui","author":"bangtech","identification":"framework_ui","version":"0.0.1","description":"","copyright":"","event":[],"extend":[{"mode":"GET","route":"","handler":"extend\\Index@index"}],"command":[{"class":"command\\DemoCommand","mode":"HAS_COMMAND"}]}

@@ -11,6 +11,83 @@
       "mode": "GET",
       "route": "",
       "handler": "extend\\Index@index"
+    },
+    {
+      "mode": "GET",
+      "route": "manage/App/getList",
+      "handler": "extend\\manage\\App@getList"
+    },
+    {
+      "mode": "GET",
+      "route": "manage/App/getInfo",
+      "handler": "extend\\manage\\App@getInfo"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/App/add",
+      "handler": "extend\\manage\\App@add"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/App/update",
+      "handler": "extend\\manage\\App@update"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/App/delete",
+      "handler": "extend\\manage\\App@delete"
+    },
+
+    {
+      "mode": "GET",
+      "route": "manage/Channel/getList",
+      "handler": "extend\\manage\\Channel@getList"
+    },
+    {
+      "mode": "GET",
+      "route": "manage/Channel/getInfo",
+      "handler": "extend\\manage\\Channel@getInfo"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Channel/add",
+      "handler": "extend\\manage\\Channel@add"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Channel/update",
+      "handler": "extend\\manage\\Channel@update"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Channel/delete",
+      "handler": "extend\\manage\\Channel@delete"
+    },
+
+    {
+      "mode": "GET",
+      "route": "manage/Package/getList",
+      "handler": "extend\\manage\\Package@getList"
+    },
+    {
+      "mode": "GET",
+      "route": "manage/Package/getInfo",
+      "handler": "extend\\manage\\Package@getInfo"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Package/add",
+      "handler": "extend\\manage\\Package@add"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Package/update",
+      "handler": "extend\\manage\\Package@update"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Package/delete",
+      "handler": "extend\\manage\\Package@delete"
     }
   ],
   "command": []

@@ -4,11 +4,15 @@
 namespace app\bangtech\swoole_http\webServer;
 
 
-use module\Internet\WebService;
+use bootstrap\load;
+use helper\Di;
+use helper\WebServer\Route;
+use helper\WebServer\WebService;
+use interfaces\Console\OutputInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 
-class Server extends \app\bangtech\swoole_http\webServer\helper\Server
+class Server extends \helper\WebServer\Server
 {
 
     /**
@@ -44,7 +48,7 @@ class Server extends \app\bangtech\swoole_http\webServer\helper\Server
      */
     public function onRequest(Request $request, Response $response, ...$args)
     {
-        $webService = new WebService(new \module\Internet\WebServer\Request($request),new \module\Internet\WebServer\Response($response));
+        $webService = new WebService(new \helper\WebServer\Request($request), new \helper\WebServer\Response($response));
         $webService->onRequest();
     }
 

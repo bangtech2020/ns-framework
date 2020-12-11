@@ -20,7 +20,21 @@ class App extends Controller
      */
     public function getList()
     {
-        Db::name('apps')->where(function (Query $query)  {})->select();
+        $page = $this->request->getGet()->get('page',1);
+        $limit = $this->request->getGet()->get('limit',30);
+        $search = $this->request->getGet()->get('search','{}');
+        $search = json_decode($search,true);
+
+        $ret = Db::name('apps')->where(function (Query $query) use ($search) {
+            foreach ($search as $key => $value) {
+                if ($value){
+                    $query->where(addslashes($key), addslashes($value));
+                }
+            }
+        })->page($page,$limit)->select();
+
+        $this->result($ret,0,'ok');
+        var_dump('hello');
     }
 
     /**
@@ -28,7 +42,14 @@ class App extends Controller
      */
     public function getInfo()
     {
+        $appid = $this->request->getGet()->get('appid',null);
 
+        if (empty($appid) || $appid == null){
+            $this->result([],1,'appid必传');
+        }
+
+        $app_info = Db::name('apps')->where('id',$appid)->find();
+        $this->result($app_info,0,'ok');
     }
 
     /**
@@ -36,7 +57,7 @@ class App extends Controller
      */
     public function add()
     {
-        $this->request->getGet();
+
     }
 
     /**
