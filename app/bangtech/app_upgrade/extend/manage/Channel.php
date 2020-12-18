@@ -39,7 +39,11 @@ class Channel extends Base
         //Di::getContainer()->get(OutputInterface::class)->writeln($apps->buildSql());
         $ret = $channel->page($page, $limit)->select();
 
-        $this->result($ret, 0, 'ok');
+        if ($ret === false){
+            $this->result(null,1,'查询失败');
+        }
+
+        $this->result($ret,0,'查询成功');
     }
 
     /**
@@ -66,7 +70,11 @@ class Channel extends Base
         });
         $ret = $channel->find();
 
-        $this->result($ret, 0, 'ok');
+        if ($ret === false){
+            $this->result(null,1,'查询失败');
+        }
+
+        $this->result($ret,0,'查询成功');
     }
 
     /**

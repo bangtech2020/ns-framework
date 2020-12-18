@@ -5,20 +5,12 @@ namespace app\bangtech\app_upgrade\extend\manage;
 
 
 use helper\Db;
-use helper\Di;
-use helper\Internet\Controller;
-use interfaces\Console\OutputInterface;
 use think\db\Query;
 
-/**
- * 应用管理
- * Class App
- * @package app\bangtech\app_upgrade\extend\manage
- */
-class App extends Base
+class Version extends Base
 {
     /**
-     * 获取应用列表
+     * 获取列表
      */
     public function getList()
     {
@@ -28,7 +20,7 @@ class App extends Base
         $search = json_decode($search,true);
         if (empty($search)) $search = [];
 
-        $apps = Db::name('apps');
+        $apps = Db::name('versions');
         $apps->where('is_delete',0);
         $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
         $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
@@ -46,54 +38,62 @@ class App extends Base
     }
 
     /**
-     * 获取应用信息
+     * 获取信息
      */
     public function getInfo()
     {
-        $app_id = $this->request->getGet()->get('app_id',0);
+
+        $version_id = $this->request->getGet()->get('version_id',0);
         $search = $this->request->getGet()->get('search','{}');
         $search = json_decode($search,true);
         if (empty($search)) $search = [];
 
-        if (!$app_id){
-            $this->result(null,1,'app_id 必传');
+        if (!$version_id){
+            $this->result(null,1,'version_id 必传');
         }
 
-        //Di::getContainer()->get(OutputInterface::class)->dump($search);
-        $apps = Db::name('apps');
+        $apps = Db::name('versions');
         $apps->where('is_delete',0);
-        $apps->where('apps.id',$app_id);
+        $apps->where('id',$version_id);
         $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
         $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
         $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
         $apps->where(function (Query $query) use ($search) {
             $this->whereObj($query,$search);
         });
+        $ret = $apps->find();
 
-        $app_info = $apps->find();
-        if ($app_info === false){
+        if ($ret === false){
             $this->result(null,1,'查询失败');
         }
 
-        $this->result($app_info,0,'查询成功');
+        $this->result($ret,0,'查询成功');
     }
 
     /**
-     * 添加应用
+     * 添加
      */
     public function add()
     {
-        $app_name       = $this->request->getPost()->get('app_name','');
-        $app_describe   = $this->request->getPost()->get('app_describe','');
+        $app_id       = $this->request->getPost()->get('app_id',0);
+        $version_code = $this->request->getPost()->get('version_code','');
+        $min_version  = $this->request->getPost()->get('min_version','');
+        $update_type  = $this->request->getPost()->get('update_type','');
+        $description  = $this->request->getPost()->get('description','');
 
         $_db = [
-            'app_name' => $app_name,
-            'app_describe' => $app_describe,
-            'create_user_id' => ($this->getUser())['id'],
+            'app_id' => $app_id,
+            'version_code' => $version_code,
+            'min_version' => $min_version,
+            'update_type' => $update_type,
+            'description' => $description,
+            'create_user_id	' => ($this->getUser())['id'],
             'create_time' => date("Y-m-d H:i:s",time()),
+            'is_delete' => 0
         ];
 
-        $ret = Db::name('apps')->insert($_db);
+        $ret = Db::name('versions')->insert($_db);
+
         if ($ret === false){
             $this->result(null,1,'添加失败');
         }
@@ -102,27 +102,30 @@ class App extends Base
     }
 
     /**
-     * 更新应用
+     * 更新
      */
     public function update()
     {
-        $app_id = $this->request->getPost()->get('app_id',0);
-        $app_name       = $this->request->getPost()->get('app_name','');
-        $app_describe   = $this->request->getPost()->get('app_describe','');
+        $version_id = $this->request->getGet()->get('version_id',0);
+        $app_id       = $this->request->getPost()->get('app_id',0);
+        $version_code = $this->request->getPost()->get('version_code','');
+        $min_version  = $this->request->getPost()->get('min_version','');
+        $update_type  = $this->request->getPost()->get('update_type','');
+        $description  = $this->request->getPost()->get('description','');
 
         $_db = [
-            'update_user_id' => ($this->getUser())['id'],
-            'update_time' => date("Y-m-d H:i:s",time()),
+            'update_user_id	' => ($this->getUser())['id'],
+            'update_time' => date("Y-m-d H:i:s",time())
         ];
 
-        if ($app_name) $_db['app_name'] = $app_name;
-        if ($app_describe) $_db['app_describe'] = $app_describe;
+        if ($app_id) $_db['app_id'] = $app_id;
+        if ($version_code) $_db['version_code'] = $version_code;
+        if ($min_version) $_db['min_version'] = $min_version;
+        if ($update_type) $_db['update_type'] = $update_type;
+        if ($description) $_db['description'] = $description;
 
-        if (count($_db) == 2){
-            $this->result(null,1,'无信息改动');
-        }
+        $ret = Db::name('versions')->where('version_id',$version_id)->where('is_delete',0)->update($_db);
 
-        $ret = Db::name('apps')->where('id',$app_id)->where('is_delete',0)->update($_db);
         if ($ret === false){
             $this->result(null,1,'修改失败');
         }
@@ -131,13 +134,13 @@ class App extends Base
     }
 
     /**
-     * 删除应用
+     * 删除
      */
     public function delete()
     {
-        $app_id = $this->request->getPost()->get('app_id',0);
-        if (!$app_id){
-            $this->result(null,1,'app_id必传');
+        $version_id = $this->request->getGet()->get('version_id',0);
+        if (!$version_id){
+            $this->result(null,1,'version_id 必传');
         }
 
         $_db = [
@@ -146,7 +149,7 @@ class App extends Base
             'update_time'=> date("Y-m-d H:i:s",time()),
         ];
 
-        $ret = Db::name('apps')->where('id',$app_id)->where('is_delete',0)->update($_db);
+        $ret = Db::name('apps')->where('id',$version_id)->where('is_delete',0)->update($_db);
         if (!$ret){
             $this->result(null,1,'删除失败');
         }

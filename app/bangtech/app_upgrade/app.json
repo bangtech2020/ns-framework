@@ -88,6 +88,32 @@
       "mode": "POST",
       "route": "manage/Package/delete",
       "handler": "extend\\manage\\Package@delete"
+    },
+
+    {
+      "mode": "GET",
+      "route": "manage/Version/getList",
+      "handler": "extend\\manage\\Version@getList"
+    },
+    {
+      "mode": "GET",
+      "route": "manage/Version/getInfo",
+      "handler": "extend\\manage\\Version@getInfo"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Version/add",
+      "handler": "extend\\manage\\Version@add"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Version/update",
+      "handler": "extend\\manage\\Version@update"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Version/delete",
+      "handler": "extend\\manage\\Version@delete"
     }
   ],
   "command": []
