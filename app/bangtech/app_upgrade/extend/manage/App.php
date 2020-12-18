@@ -30,6 +30,7 @@ class App extends Base
 
         //Di::getContainer()->get(OutputInterface::class)->dump($search);
         $apps = Db::name('apps');
+        $apps->where('is_delete',0);
         $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
         $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
         $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
@@ -58,6 +59,7 @@ class App extends Base
 
         //Di::getContainer()->get(OutputInterface::class)->dump($search);
         $apps = Db::name('apps');
+        $apps->where('is_delete',0);
         $apps->where('apps.id',$app_id);
         $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
         $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
@@ -114,7 +116,7 @@ class App extends Base
             $this->result(null,1,'无信息改动');
         }
 
-        $ret = Db::name('apps')->where('id',$app_id)->update($_db);
+        $ret = Db::name('apps')->where('id',$app_id)->where('is_delete',0)->update($_db);
         if ($ret === false){
             $this->result(null,1,'修改失败');
         }
@@ -138,7 +140,7 @@ class App extends Base
             'update_time'=> date("Y-m-d H:i:s",time()),
         ];
 
-        $ret = Db::name('apps')->where('id',$app_id)->update($_db);
+        $ret = Db::name('apps')->where('id',$app_id)->where('is_delete',0)->update($_db);
         if (!$ret){
             $this->result(null,1,'删除失败');
         }
