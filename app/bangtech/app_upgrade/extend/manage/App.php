@@ -77,12 +77,11 @@ class App extends Base
     {
         $app_name       = $this->request->getPost()->get('app_name','');
         $app_describe   = $this->request->getPost()->get('app_describe','');
-        $create_user_id = $this->request->getPost()->get('create_user_id','');
 
         $_db = [
             'app_name' => $app_name,
             'app_describe' => $app_describe,
-            'create_user_id' => $create_user_id,
+            'create_user_id' => ($this->getUser())['id'],
             'create_time' => date("Y-m-d H:i:s",time()),
         ];
 
@@ -102,10 +101,9 @@ class App extends Base
         $app_id = $this->request->getPost()->get('app_id',0);
         $app_name       = $this->request->getPost()->get('app_name','');
         $app_describe   = $this->request->getPost()->get('app_describe','');
-        $update_user_id = $this->request->getPost()->get('update_user_id',0);
 
         $_db = [
-            'update_user_id' => $update_user_id,
+            'update_user_id' => ($this->getUser())['id'],
             'update_time' => date("Y-m-d H:i:s",time()),
         ];
 
@@ -134,7 +132,13 @@ class App extends Base
             $this->result(null,1,'app_id必传');
         }
 
-        $ret = Db::name('apps')->where('id',$app_id)->update(['is_delete'=>1]);
+        $_db = [
+            'is_delete'=>1,
+            'update_user_id' => ($this->getUser())['id'],
+            'update_time'=> date("Y-m-d H:i:s",time()),
+        ];
+
+        $ret = Db::name('apps')->where('id',$app_id)->update($_db);
         if (!$ret){
             $this->result(null,1,'删除失败');
         }

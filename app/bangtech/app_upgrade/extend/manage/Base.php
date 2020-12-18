@@ -9,6 +9,11 @@ use think\db\Query;
 
 class Base extends Controller
 {
+    protected function getUser()
+    {
+        return ['id'=>1,'nickname' => '春哥', 'mobile' => '13000000000'];
+    }
+
     protected function whereObj(Query $query, $search)
     {
         $ops = ['=', '<>', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'BETWEEN', 'NOT BETWEEN', 'IN', 'NOT IN',
