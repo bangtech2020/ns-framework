@@ -15,7 +15,7 @@ use think\db\Query;
  * Class App
  * @package app\bangtech\app_upgrade\extend\manage
  */
-class App extends Controller
+class App extends Base
 {
     /**
      * 获取应用列表
@@ -31,36 +31,7 @@ class App extends Controller
         //Di::getContainer()->get(OutputInterface::class)->dump($search);
 
         $apps = Db::name('apps')->where(function (Query $query) use ($search) {
-            $ops = ['=', '<>', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'BETWEEN', 'NOT BETWEEN', 'IN', 'NOT IN',
-                'NULL', 'NOT NULL', 'EXISTS', 'NOT EXISTS', '> TIME	', '< TIME', '>= TIME', '<= TIME'];
-            foreach ($search as $key => $value) {
-                //过滤
-                if (is_string($key)) $key = addslashes($key);
-                if (is_array($value)){
-                    foreach ($value as $item) {
-                        //参数过滤
-                        if (is_array($item['value'])) continue;
-                        if (is_string($item['value'])) $item['value'] = addslashes($item['value']);
-                        if (!isset($item['op']) || empty($item['op']))  $item['op'] = '=';
-
-                        $item['op'] = strtoupper($item['op']);
-                        $item['where'] = strtoupper($item['where']);
-
-                        //高级筛选
-                        if (in_array($item['op'],$ops)){
-                            if (isset($item['where']) && $item['where'] == 'OR'){
-                                $query->whereOr($key, $item['op'], $item['value']);
-                            }else{
-                                $query->where($key, $item['op'], $item['value']);
-                            }
-                        }
-                    }
-                }else{
-                    if (is_array($value)) continue;
-                    if (is_string($value)) $value = addslashes($value);
-                    $query->where(addslashes($key), $value);
-                }
-            }
+            $this->whereObj($query,$search);
         });
         //Di::getContainer()->get(OutputInterface::class)->writeln($apps->buildSql());
         $ret = $apps->page($page,$limit)->select();
@@ -88,7 +59,23 @@ class App extends Controller
      */
     public function add()
     {
+        $app_name       = $this->request->getPost()->get('app_name','');
+        $app_describe   = $this->request->getPost()->get('app_describe','');
+        $create_user_id = $this->request->getPost()->get('create_user_id','');
 
+        $_db = [
+            'app_name' => $app_name,
+            'app_describe' => $app_describe,
+            'create_user_id' => $create_user_id,
+            'create_time' => date("Y-m-d H:i:s",time()),
+        ];
+
+        $ret = Db::name('apps')->insert($_db);
+        if ($ret === false){
+            $this->result(null,1,'添加失败');
+        }
+
+        $this->result(null,0,'添加成功');
     }
 
     /**
@@ -96,7 +83,29 @@ class App extends Controller
      */
     public function update()
     {
+        $app_id = $this->request->getPost()->get('app_id',0);
+        $app_name       = $this->request->getPost()->get('app_name','');
+        $app_describe   = $this->request->getPost()->get('app_describe','');
+        $update_user_id = $this->request->getPost()->get('update_user_id',0);
 
+        $_db = [
+            'update_user_id' => $update_user_id,
+            'update_time' => date("Y-m-d H:i:s",time()),
+        ];
+
+        if ($app_name) $_db['app_name'] = $app_name;
+        if ($app_describe) $_db['app_describe'] = $app_describe;
+
+        if (count($_db) == 2){
+            $this->result(null,1,'无信息改动');
+        }
+
+        $ret = Db::name('apps')->where('id',$app_id)->update($_db);
+        if ($ret === false){
+            $this->result(null,1,'修改失败');
+        }
+
+        $this->result(null,0,'修改成功');
     }
 
     /**
@@ -104,6 +113,15 @@ class App extends Controller
      */
     public function delete()
     {
+        $app_id = $this->request->getPost()->get('app_id',0);
+        if (!$app_id){
+            $this->result(null,1,'app_id必传');
+        }
 
+        $ret = Db::name('apps')->where('id',$app_id)->update(['is_delete'=>1]);
+        if (!$ret){
+            $this->result(null,1,'删除失败');
+        }
+        $this->result(null,1,'删除成功');
     }
 }
