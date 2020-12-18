@@ -47,7 +47,7 @@ class App extends Base
      */
     public function getInfo()
     {
-        $app_id = $this->request->getPost()->get('app_id',0);
+        $app_id = $this->request->getGet()->get('app_id',0);
         $search = $this->request->getGet()->get('search','{}');
         $search = json_decode($search,true);
         if (empty($search)) $search = [];
@@ -58,7 +58,7 @@ class App extends Base
 
         //Di::getContainer()->get(OutputInterface::class)->dump($search);
         $apps = Db::name('apps');
-        $apps->where('apps.app_id',$app_id);
+        $apps->where('apps.id',$app_id);
         $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
         $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
         $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
