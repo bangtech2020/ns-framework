@@ -5,7 +5,9 @@ namespace app\bangtech\app_upgrade\extend\manage;
 
 
 use helper\Db;
+use helper\Di;
 use helper\Internet\Controller;
+use interfaces\Console\OutputInterface;
 use think\db\Query;
 
 /**
@@ -24,8 +26,11 @@ class App extends Controller
         $limit = $this->request->getGet()->get('limit',30);
         $search = $this->request->getGet()->get('search','{}');
         $search = json_decode($search,true);
+        if (empty($search)) $search = [];
 
-        $ret = Db::name('apps')->where(function (Query $query) use ($search) {
+        //Di::getContainer()->get(OutputInterface::class)->dump($search);
+
+        $apps = Db::name('apps')->where(function (Query $query) use ($search) {
             $ops = ['=', '<>', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'BETWEEN', 'NOT BETWEEN', 'IN', 'NOT IN',
                 'NULL', 'NOT NULL', 'EXISTS', 'NOT EXISTS', '> TIME	', '< TIME', '>= TIME', '<= TIME'];
             foreach ($search as $key => $value) {
@@ -36,14 +41,12 @@ class App extends Controller
                         //参数过滤
                         if (is_array($item['value'])) continue;
                         if (is_string($item['value'])) $item['value'] = addslashes($item['value']);
+                        if (!isset($item['op']) || empty($item['op']))  $item['op'] = '=';
 
                         $item['op'] = strtoupper($item['op']);
                         $item['where'] = strtoupper($item['where']);
 
                         //高级筛选
-                        if (!isset($item['op']) || empty($item['op'])){
-                            $item['op'] = '=';
-                        }
                         if (in_array($item['op'],$ops)){
                             if (isset($item['where']) && $item['where'] == 'OR'){
                                 $query->whereOr($key, $item['op'], $item['value']);
@@ -58,7 +61,9 @@ class App extends Controller
                     $query->where(addslashes($key), $value);
                 }
             }
-        })->page($page,$limit)->select();
+        });
+        //Di::getContainer()->get(OutputInterface::class)->writeln($apps->buildSql());
+        $ret = $apps->page($page,$limit)->select();
 
         $this->result($ret,0,'ok');
     }
