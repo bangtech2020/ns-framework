@@ -29,8 +29,11 @@ class App extends Base
         if (empty($search)) $search = [];
 
         //Di::getContainer()->get(OutputInterface::class)->dump($search);
-
-        $apps = Db::name('apps')->where(function (Query $query) use ($search) {
+        $apps = Db::name('apps');
+        $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
+        $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
+        $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
+        $apps->where(function (Query $query) use ($search) {
             $this->whereObj($query,$search);
         });
         //Di::getContainer()->get(OutputInterface::class)->writeln($apps->buildSql());
@@ -44,13 +47,26 @@ class App extends Base
      */
     public function getInfo()
     {
-        $appid = $this->request->getGet()->get('appid',null);
+        $app_id = $this->request->getPost()->get('app_id',0);
+        $search = $this->request->getGet()->get('search','{}');
+        $search = json_decode($search,true);
+        if (empty($search)) $search = [];
 
-        if (empty($appid) || $appid == null){
-            $this->result([],1,'appid必传');
+        if (!$app_id){
+            $this->result(null,1,'app_id 必传');
         }
 
-        $app_info = Db::name('apps')->where('id',$appid)->find();
+        //Di::getContainer()->get(OutputInterface::class)->dump($search);
+        $apps = Db::name('apps');
+        $apps->where('apps.app_id',$app_id);
+        $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
+        $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
+        $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
+        $apps->where(function (Query $query) use ($search) {
+            $this->whereObj($query,$search);
+        });
+
+        $app_info = $apps->find();
         $this->result($app_info,0,'ok');
     }
 

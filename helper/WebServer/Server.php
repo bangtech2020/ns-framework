@@ -191,7 +191,7 @@ class Server
                     return true;
                 }
                 if ($info['has_file'] != $has_file['has_file']) {
-                    Di::getContainer()->get(OutputInterface::class)->writeln("文件【{$path_name}】发生变化了：{$info['has_file']}=>{$has_file['has_file']}");
+                    Di::getContainer()->get(OutputInterface::class)->writeln("文件【{$path_name}】发生变化了：{$info['has_file']} => {$has_file['has_file']}");
                     return true;
                 }
             }
