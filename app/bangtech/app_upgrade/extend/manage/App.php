@@ -26,15 +26,41 @@ class App extends Controller
         $search = json_decode($search,true);
 
         $ret = Db::name('apps')->where(function (Query $query) use ($search) {
+            $ops = ['=', '<>', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'BETWEEN', 'NOT BETWEEN', 'IN', 'NOT IN',
+                'NULL', 'NOT NULL', 'EXISTS', 'NOT EXISTS', '> TIME	', '< TIME', '>= TIME', '<= TIME'];
             foreach ($search as $key => $value) {
-                if ($value){
-                    $query->where(addslashes($key), addslashes($value));
+                //过滤
+                if (is_string($key)) $key = addslashes($key);
+                if (is_array($value)){
+                    foreach ($value as $item) {
+                        //参数过滤
+                        if (is_array($item['value'])) continue;
+                        if (is_string($item['value'])) $item['value'] = addslashes($item['value']);
+
+                        $item['op'] = strtoupper($item['op']);
+                        $item['where'] = strtoupper($item['where']);
+
+                        //高级筛选
+                        if (!isset($item['op']) || empty($item['op'])){
+                            $item['op'] = '=';
+                        }
+                        if (in_array($item['op'],$ops)){
+                            if (isset($item['where']) && $item['where'] == 'OR'){
+                                $query->whereOr($key, $item['op'], $item['value']);
+                            }else{
+                                $query->where($key, $item['op'], $item['value']);
+                            }
+                        }
+                    }
+                }else{
+                    if (is_array($value)) continue;
+                    if (is_string($value)) $value = addslashes($value);
+                    $query->where(addslashes($key), $value);
                 }
             }
         })->page($page,$limit)->select();
 
         $this->result($ret,0,'ok');
-        var_dump('hello');
     }
 
     /**
