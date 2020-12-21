@@ -16,7 +16,7 @@ class Index extends \helper\Internet\Controller
 
     }
 
-    public function getVersion()
+    public function checkVersion()
     {
         $app_id       = $this->request->getGet()->get('app_id','');
         $channel_code = $this->request->getGet()->get('channel_code','');

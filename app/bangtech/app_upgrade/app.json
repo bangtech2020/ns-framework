@@ -14,8 +14,8 @@
     },
     {
       "mode": "GET",
-      "route": "getVersion",
-      "handler": "extend\\Index@getVersion"
+      "route": "checkVersion",
+      "handler": "extend\\Index@checkVersion"
     },
     {
       "mode": "GET",
