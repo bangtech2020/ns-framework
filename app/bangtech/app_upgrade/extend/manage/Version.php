@@ -5,6 +5,8 @@ namespace app\bangtech\app_upgrade\extend\manage;
 
 
 use helper\Db;
+use helper\Di;
+use interfaces\Console\OutputInterface;
 use think\db\Query;
 
 class Version extends Base
@@ -20,15 +22,16 @@ class Version extends Base
         $search = json_decode($search,true);
         if (empty($search)) $search = [];
 
-        $apps = Db::name('versions');
-        $apps->where('is_delete',0);
-        $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
-        $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
-        $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
-        $apps->where(function (Query $query) use ($search) {
+        $versions = Db::name('versions');
+        $versions->where('is_delete',0);
+        $versions->join('users create_users','create_users.id = versions.create_user_id','LEFT');
+        $versions->join('users update_users','update_users.id = versions.update_user_id','LEFT');
+        $versions->field("versions.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
+        $versions->where(function (Query $query) use ($search) {
             $this->whereObj($query,$search);
         });
-        $ret = $apps->page($page,$limit)->select();
+        // Di::getContainer()->get(OutputInterface::class)->writeln($versions->page($page,$limit)->buildSql());
+        $ret = $versions->page($page,$limit)->select();
 
         if ($ret === false){
             $this->result(null,1,'查询失败');
@@ -52,16 +55,15 @@ class Version extends Base
             $this->result(null,1,'version_id 必传');
         }
 
-        $apps = Db::name('versions');
-        $apps->where('is_delete',0);
-        $apps->where('id',$version_id);
-        $apps->join('users create_users','create_users.id = apps.create_user_id','LEFT');
-        $apps->join('users update_users','update_users.id = apps.update_user_id','LEFT');
-        $apps->field("apps.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
-        $apps->where(function (Query $query) use ($search) {
+        $versions = Db::name('versions');
+        $versions->where('is_delete',0);
+        $versions->join('users create_users','create_users.id = versions.create_user_id','LEFT');
+        $versions->join('users update_users','update_users.id = versions.update_user_id','LEFT');
+        $versions->field("versions.*,create_users.nickname as create_users_nickname,update_users.nickname as update_users_nickname");
+        $versions->where(function (Query $query) use ($search) {
             $this->whereObj($query,$search);
         });
-        $ret = $apps->find();
+        $ret = $versions->find();
 
         if ($ret === false){
             $this->result(null,1,'查询失败');
