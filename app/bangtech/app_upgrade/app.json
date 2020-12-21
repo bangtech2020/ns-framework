@@ -14,6 +14,11 @@
     },
     {
       "mode": "GET",
+      "route": "getVersion",
+      "handler": "extend\\Index@getVersion"
+    },
+    {
+      "mode": "GET",
       "route": "manage/App/getList",
       "handler": "extend\\manage\\App@getList"
     },

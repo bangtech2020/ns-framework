@@ -4,6 +4,8 @@
 namespace app\bangtech\app_upgrade\extend\manage;
 
 use helper\Db;
+use helper\Di;
+use interfaces\Console\OutputInterface;
 use think\db\Query;
 
 /**
@@ -39,10 +41,11 @@ class Package extends Base
             'create_users.nickname' => 'create_users_nickname',
             'update_users.nickname' => 'update_users_nickname',
         ]);
-        $package->where('status', '<>', 0);
+        $package->where('package.status', '<>', 0);
         $package->where(function (Query $query) use ($search) {
             $this->whereObj($query, $search);
         });
+        Di::getContainer()->get(OutputInterface::class)->writeln($package->page($page, $limit)->buildSql());
         $ret = $package->page($page, $limit)->select();
 
         if ($ret === false) {
