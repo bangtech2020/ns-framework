@@ -23,16 +23,18 @@ class Index extends \helper\Internet\Controller
     public function checkVersion()
     {
         $app_id       = $this->request->getGet()->get('app_id','');
+        $package_name = $this->request->getGet()->get('package_name', '');
         $channel_code = $this->request->getGet()->get('channel_code','');
         $version_code = $this->request->getGet()->get('version_code','');
+
+        if (!$app_id && !$package_name) {
+            $this->result(null, 1, 'app_id 和 package_name 必传一个');
+        }
 
         if (!$channel_code){
             $this->result(null,1,'渠道代码必传');
         }
 
-        if (!$app_id){
-            $this->result(null,1,'APPID必传');
-        }
 
         if (!$version_code){
             $this->result(null,1,'版本号必传');
@@ -52,7 +54,14 @@ class Index extends \helper\Internet\Controller
         //未删除
         $updates->where('versions.is_delete', '=', 0);
         $updates->where('channel.code', $channel_code);
-        $updates->where('channel.app_id', $app_id);
+        if ($app_id){
+            $updates->where('channel.app_id', $app_id);
+        }
+
+        if ($package_name){
+            $updates->join('package', 'channel.app_id = package.app_id');
+            $updates->where('package.name', $package_name);
+        }
 
         // Di::getContainer()->get(OutputInterface::class)->writeln($updates->buildSql());
         $ret = $updates->select();
