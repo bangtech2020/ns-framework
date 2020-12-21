@@ -9,6 +9,10 @@ use helper\Di;
 use interfaces\Console\OutputInterface;
 use think\db\Query;
 
+/**
+ * Class Index
+ * @package app\bangtech\app_upgrade\extend
+ */
 class Index extends \helper\Internet\Controller
 {
     public function index()
@@ -34,27 +38,24 @@ class Index extends \helper\Internet\Controller
             $this->result(null,1,'版本号必传');
         }
 
-
-
-
-        $package = Db::name('package');
-        $package->join('channel', 'channel.id = package.channel_id');
-        $package->join('versions', 'versions.id = package.version_id');
-        $package->field([
-            'package.id',
+        $updates = Db::name('updates');
+        $updates->join('channel', 'channel.id = updates.channel_id');
+        $updates->join('versions', 'versions.id = updates.version_id');
+        $updates->field([
+            'updates.id',
             'versions.id' => 'version_id',
             'versions.version_code' => 'version_code',
             'versions.min_version' => 'min_version',
-            'package.download_url',
+            'updates.download_url',
         ]);
-        $package->where('package.status', '<>', 0);
+        $updates->where('updates.status', '<>', 0);
         //未删除
-        $package->where('versions.is_delete', '=', 0);
-        $package->where('channel.code', $channel_code);
-        $package->where('channel.app_id', $app_id);
+        $updates->where('versions.is_delete', '=', 0);
+        $updates->where('channel.code', $channel_code);
+        $updates->where('channel.app_id', $app_id);
 
-        // Di::getContainer()->get(OutputInterface::class)->writeln($package->buildSql());
-        $ret = $package->select();
+        // Di::getContainer()->get(OutputInterface::class)->writeln($updates->buildSql());
+        $ret = $updates->select();
 
         if ($ret === false) {
             $this->result(null, 1, '查询失败');
