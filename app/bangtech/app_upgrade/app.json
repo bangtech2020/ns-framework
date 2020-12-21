@@ -71,28 +71,28 @@
 
     {
       "mode": "GET",
-      "route": "manage/Package/getList",
-      "handler": "extend\\manage\\Package@getList"
+      "route": "manage/Updates/getList",
+      "handler": "extend\\manage\\Updates@getList"
     },
     {
       "mode": "GET",
-      "route": "manage/Package/getInfo",
-      "handler": "extend\\manage\\Package@getInfo"
+      "route": "manage/Updates/getInfo",
+      "handler": "extend\\manage\\Updates@getInfo"
     },
     {
       "mode": "POST",
-      "route": "manage/Package/add",
-      "handler": "extend\\manage\\Package@add"
+      "route": "manage/Updates/add",
+      "handler": "extend\\manage\\Updates@add"
     },
     {
       "mode": "POST",
-      "route": "manage/Package/update",
-      "handler": "extend\\manage\\Package@update"
+      "route": "manage/Updates/update",
+      "handler": "extend\\manage\\Updates@update"
     },
     {
       "mode": "POST",
-      "route": "manage/Package/delete",
-      "handler": "extend\\manage\\Package@delete"
+      "route": "manage/Updates/delete",
+      "handler": "extend\\manage\\Updates@delete"
     },
 
     {
@@ -119,6 +119,32 @@
       "mode": "POST",
       "route": "manage/Version/delete",
       "handler": "extend\\manage\\Version@delete"
+    },
+
+    {
+      "mode": "GET",
+      "route": "manage/Package/getList",
+      "handler": "extend\\manage\\Package@getList"
+    },
+    {
+      "mode": "GET",
+      "route": "manage/Package/getInfo",
+      "handler": "extend\\manage\\Package@getInfo"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Package/add",
+      "handler": "extend\\manage\\Package@add"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Package/update",
+      "handler": "extend\\manage\\Package@update"
+    },
+    {
+      "mode": "POST",
+      "route": "manage/Package/delete",
+      "handler": "extend\\manage\\Package@delete"
     }
   ],
   "command": []

@@ -115,6 +115,10 @@ class Version extends Base
         $update_type  = $this->request->getPost()->get('update_type','');
         $description  = $this->request->getPost()->get('description','');
 
+        if (!$version_id) {
+            $this->result(null, 1, 'version_id 必传');
+        }
+
         $_db = [
             'update_user_id	' => ($this->getUser())['id'],
             'update_time' => date("Y-m-d H:i:s",time())

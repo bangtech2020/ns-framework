@@ -65,6 +65,10 @@ class Updates extends Base
         $search = json_decode($search, true);
         if (empty($search)) $search = [];
 
+        if (!$update_id) {
+            $this->result(null, 1, 'update_id 必传');
+        }
+
         $updates = Db::name('updates');
         $updates->join('channel', 'channel.id = updates.channel_id');
         $updates->join('versions', 'versions.id = updates.version_id');

@@ -110,6 +110,11 @@ class App extends Base
         $app_name       = $this->request->getPost()->get('app_name','');
         $app_describe   = $this->request->getPost()->get('app_describe','');
 
+
+        if (!$app_id) {
+            $this->result(null, 1, 'app_id 必传');
+        }
+
         $_db = [
             'update_user_id' => ($this->getUser())['id'],
             'update_time' => date("Y-m-d H:i:s",time()),
