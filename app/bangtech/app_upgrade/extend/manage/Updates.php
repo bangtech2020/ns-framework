@@ -83,8 +83,8 @@ class Updates extends Base
             'create_users.nickname' => 'create_users_nickname',
             'update_users.nickname' => 'update_users_nickname',
         ]);
-        $updates->where('id', $update_id);
-        $updates->where('status', '<>', 0);
+        $updates->where('updates.id', $update_id);
+        $updates->where('updates.status', '<>', 0);
         $updates->where(function (Query $query) use ($search) {
             $this->whereObj($query, $search);
         });
