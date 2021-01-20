@@ -5,7 +5,7 @@ namespace app\bangtech\app_upgrade\extend\manage;
 
 
 use helper\Db;
-use think\db\Query;
+use bangtech\swooleOrm\db\Query;
 
 class Package extends Base
 {
@@ -91,7 +91,7 @@ class Package extends Base
             'app_id' => $app_id,
             'name' => $name,
             'type' => $type,
-            'create_user' => ($this->getUser())['id'],
+            'create_user_id' => ($this->getUser())['id'],
             'create_time' => date("Y-m-d H:i:s", time()),
         ];
 

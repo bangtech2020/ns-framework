@@ -7,7 +7,7 @@ namespace app\bangtech\app_upgrade\extend;
 use helper\Db;
 use helper\Di;
 use interfaces\Console\OutputInterface;
-use think\db\Query;
+use bangtech\swooleOrm\db\Query;
 
 /**
  * Class Index
@@ -73,7 +73,7 @@ class Index extends \helper\Internet\Controller
         $max_version = $version_code;
 
         foreach ($ret as $key => $value) {
-            if (version_compare($version_code,$value['min_version'],'>') && version_compare($max_version,$value['version_code'],'<')){
+            if (version_compare($version_code,$value['min_version'],'>=') && version_compare($max_version,$value['version_code'],'<')){
                 $max_version = $value['version_code'];
             }
         }

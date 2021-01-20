@@ -4,8 +4,8 @@
 namespace app\bangtech\app_upgrade\extend\manage;
 
 
+use bangtech\swooleOrm\db\Query;
 use helper\Internet\Controller;
-use think\db\Query;
 
 class Base extends Controller
 {

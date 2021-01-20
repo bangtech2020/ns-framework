@@ -4,9 +4,9 @@
 namespace app\bangtech\app_upgrade\extend\manage;
 
 
+use bangtech\swooleOrm\db\Query;
 use helper\Db;
 use helper\Internet\Controller;
-use think\db\Query;
 
 /**
  * 渠道
@@ -94,7 +94,7 @@ class Channel extends Base
             'app_id' => $app_id,
             'name' => $name,
             'code' => $code,
-            'create_user' => ($this->getUser())['id'],
+            'create_user_id' => ($this->getUser())['id'],
             'create_time' => date("Y-m-d H:i:s", time()),
             'status' => 1
         ];

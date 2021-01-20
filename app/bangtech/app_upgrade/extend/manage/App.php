@@ -8,7 +8,7 @@ use helper\Db;
 use helper\Di;
 use helper\Internet\Controller;
 use interfaces\Console\OutputInterface;
-use think\db\Query;
+use bangtech\swooleOrm\db\Query;
 
 /**
  * 应用管理
@@ -38,8 +38,9 @@ class App extends Base
         });
         $ret = $apps->page($page,$limit)->select();
 
+        var_dump($ret);
         if ($ret === false){
-            $this->result(null,1,'查询失败');
+            $this->result($ret,1,'查询失败');
         }
 
         $this->result($ret,0,'查询成功');

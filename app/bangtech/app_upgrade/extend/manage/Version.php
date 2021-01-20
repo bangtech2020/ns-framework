@@ -7,7 +7,7 @@ namespace app\bangtech\app_upgrade\extend\manage;
 use helper\Db;
 use helper\Di;
 use interfaces\Console\OutputInterface;
-use think\db\Query;
+use bangtech\swooleOrm\db\Query;
 
 class Version extends Base
 {
@@ -89,7 +89,7 @@ class Version extends Base
             'min_version' => $min_version,
             'update_type' => $update_type,
             'description' => $description,
-            'create_user_id	' => ($this->getUser())['id'],
+            'create_user_id' => ($this->getUser())['id'],
             'create_time' => date("Y-m-d H:i:s",time()),
             'is_delete' => 0
         ];

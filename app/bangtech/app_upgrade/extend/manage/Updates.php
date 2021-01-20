@@ -6,7 +6,7 @@ namespace app\bangtech\app_upgrade\extend\manage;
 use helper\Db;
 use helper\Di;
 use interfaces\Console\OutputInterface;
-use think\db\Query;
+use bangtech\swooleOrm\db\Query;
 
 /**
  * 包管理
