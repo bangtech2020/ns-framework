@@ -1,17 +1,5 @@
 <?php
 
-use helper\Env;
-
-/**
- * @param $name
- * @param null $default
- * @return array|null
- */
-function env($name, $default = null)
-{
-    return Env::get($name, $default);
-}
-
 function function_enabled($function) {
     $disabled = explode(',', ini_get('disable_functions'));
     return !in_array($function, $disabled);
@@ -68,9 +56,9 @@ function get_git()
 /**
  * @return string
  */
-function get_datetime_format()
+function get_datetime()
 {
-    return '@datetime_format@';
+    return '@datetime@';
 }
 
 /**

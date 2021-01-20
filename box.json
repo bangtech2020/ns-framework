@@ -27,7 +27,6 @@
         "test",
         "test_old",
         "tests",
-        "Tests",
         "vendor-bin"
       ],
       "in": "vendor"
@@ -44,5 +43,5 @@
   ],
   "git": "git",
   "git-commit": "git_commit",
-  "datetime-format":"datetime_format"
+  "datetime": "datetime"
 }

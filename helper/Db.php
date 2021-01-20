@@ -3,94 +3,59 @@
 
 namespace helper;
 
-/**
- * @see \think\Db
- * @mixin \think\Db
- * @method object buildQuery(string $query, mixed $connection) static 创建一个新的查询对象
- * @method \think\db\Query connect(array $config =[], mixed $name = false) static 连接/切换数据库连接
- * @method \think\db\Connection getConnection() static 获取数据库连接对象
- * @method \think\db\Query master() static 从主服务器读取数据
- * @method \think\db\Query table(string $table) static 指定数据表（含前缀）
- * @method \think\db\Query name(string $name) static 指定数据表（不含前缀）
- * @method \think\db\Raw raw(string $value) static 使用表达式设置数据
- * @method \think\db\Query where(mixed $field, string $op = null, mixed $condition = null) static 查询条件
- * @method \think\db\Query whereRaw(string $where, array $bind = []) static 表达式查询
- * @method \think\db\Query whereExp(string $field, string $condition, array $bind = []) static 字段表达式查询
- * @method \think\db\Query when(mixed $condition, mixed $query, mixed $otherwise = null) static 条件查询
- * @method \think\db\Query join(mixed $join, mixed $condition = null, string $type = 'INNER') static JOIN查询
- * @method \think\db\Query view(mixed $join, mixed $field = null, mixed $on = null, string $type = 'INNER') static 视图查询
- * @method \think\db\Query field(mixed $field, boolean $except = false) static 指定查询字段
- * @method \think\db\Query fieldRaw(string $field, array $bind = []) static 指定查询字段
- * @method \think\db\Query union(mixed $union, boolean $all = false) static UNION查询
- * @method \think\db\Query limit(mixed $offset, integer $length = null) static 查询LIMIT
- * @method \think\db\Query order(mixed $field, string $order = null) static 查询ORDER
- * @method \think\db\Query orderRaw(string $field, array $bind = []) static 查询ORDER
- * @method \think\db\Query cache(mixed $key = null , integer $expire = null) static 设置查询缓存
- * @method \think\db\Query withAttr(string $name, callable $callback = null) static 使用获取器获取数据
- * @method mixed value(string $field) static 获取某个字段的值
- * @method array column(string $field, string $key = '') static 获取某个列的值
- * @method mixed find(mixed $data = null) static 查询单个记录
- * @method mixed select(mixed $data = null) static 查询多个记录
- * @method integer save(boolean $forceInsert = false) static 保存记录 自动判断insert或者update
- * @method integer insert(array $data, boolean $getLastInsID = false, string $sequence = null) static 插入一条记录
- * @method integer insertGetId(array $data, string $sequence = null) static 插入一条记录并返回自增ID
- * @method integer insertAll(array $dataSet) static 插入多条记录
- * @method integer update(array $data) static 更新记录
- * @method integer delete(mixed $data = null) static 删除记录
- * @method boolean chunk(integer $count, callable $callback, string $column = null) static 分块获取数据
- * @method \Generator cursor(mixed $data = null) static 使用游标查找记录
- * @method mixed query(string $sql, array $bind = [], boolean $master = false, bool $pdo = false) static SQL查询
- * @method integer execute(string $sql, array $bind = [], boolean $fetch = false, boolean $getLastInsID = false, string $sequence = null) static SQL执行
- * @method \think\Paginator paginate(integer $listRows = 15, mixed $simple = null, array $config = []) static 分页查询
- * @method mixed transaction(callable $callback) static 执行数据库事务
- * @method void startTrans() static 启动事务
- * @method void commit() static 用于非自动提交状态下面的查询提交
- * @method void rollback() static 事务回滚
- * @method boolean batchQuery(array $sqlArray) static 批处理执行SQL语句
- * @method string getLastInsID(string $sequence = null) static 获取最近插入的ID
- * @method mixed getConfig(string $name = '') static 获取数据库的配置参数
- */
+use bangtech\swooleOrm\db\Query;
+use bangtech\swooleOrm\MysqlPool;
+
 class Db
 {
 
     /**
+     * @var MysqlPool
+     */
+    private static $mysqlPool;
+
+    private static $config = [];
+
+
+    /**
      * Db constructor.
-     * @return \think\db\Query
+     * @return Query
      */
     public function __construct()
     {
-        $config = [
-            // 数据库类型
-            'type'     => Config::get('database.default.driver','mysql'),
-            // 主机地址
-            'hostname' => Config::get('database.default.host','127.0.0.1'),
-            // 用户名
-            'username' => Config::get('database.default.username','root'),
-            // 密码
-            'password' => Config::get('database.default.password',''),
-            // 端口
-            'hostport' => Config::get('database.default.port',3306),
-            // 数据库名
-            'database' => Config::get('database.default.database','esn'),
-            // 数据库编码默认采用utf8
-            'charset'  => Config::get('database.default.charset','utf8'),
-            // 数据库表前缀
-            'prefix'   => Config::get('database.default.prefix',''),
-            //断线重连
-            'break_reconnect' => Config::get('database.default.reconnect',true),
-            // 数据库调试模式
-            'debug'    => Config::get('database.default.debug',false),
+        self::$config = [
+            'host'      => Config::get('database.default.host','127.0.0.1'), //服务器地址
+            'port'      => Config::get('database.default.port',3306),        //端口
+            'user'      => Config::get('database.default.username','root'),  //用户名
+            'password'  => Config::get('database.default.password',''),      //密码
+            'charset'   => Config::get('database.default.charset','utf8'),   //编码
+            'database'  => Config::get('database.default.database','esn'),   //数据库名
+            'prefix'    => Config::get('database.default.prefix',''),        //表前缀
+            'poolMin'   => 5,        //空闲时，保存的最大链接，默认为5
+            'poolMax'   => 1000,     //地址池最大连接数，默认1000
+            'clearTime' => 60000,   //清除空闲链接定时器，默认60秒，单位ms
+            'clearAll'  => 300000,  //空闲多久清空所有连接，默认5分钟，单位ms
+            'setDefer'  => true,    //设置是否返回结果,默认为true,
         ];
-        return \think\facade\Db::connect($config);
+        self::$mysqlPool = new MysqlPool(self::$config);
+        return \bangtech\swooleOrm\Db::init(self::$mysqlPool);
     }
 
     public static function __make(){
         return new static();
     }
 
-    public static function __callStatic($name, $arguments)
+    /**
+     * @param string $tableName
+     * @return Query
+     */
+    public static function name($tableName = '')
     {
-        $class = "\\think\\facade\\Db";
-        return call_user_func_array([$class,$name],$arguments);
+        return (new Query())->init(self::$mysqlPool)->name($tableName);
+    }
+
+    public static function table($tableName = '')
+    {
+        return (new Query())->init(self::$mysqlPool)->table($tableName);
     }
 }
