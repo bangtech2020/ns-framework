@@ -27,6 +27,7 @@ class Base extends Controller
                     if (is_array($item['value'])) continue;
                     if (is_string($item['value'])) $item['value'] = addslashes($item['value']);
                     if (!isset($item['op']) || empty($item['op'])) $item['op'] = '=';
+                    if (!isset($item['where']) || empty($item['where'])) $item['where'] = 'AND';
 
                     $item['op'] = strtoupper($item['op']);
                     $item['where'] = strtoupper($item['where']);
