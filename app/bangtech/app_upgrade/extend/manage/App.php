@@ -38,7 +38,6 @@ class App extends Base
         });
         $ret = $apps->page($page,$limit)->select();
 
-        var_dump($ret);
         if ($ret === false){
             $this->result($ret,1,'查询失败');
         }
