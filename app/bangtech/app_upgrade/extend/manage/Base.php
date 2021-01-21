@@ -21,7 +21,7 @@ class Base extends Controller
         foreach ($search as $key => $value) {
             //过滤
             if (is_string($key)) $key = addslashes($key);
-            if (is_array($value)) {
+            if (is_array($value) && is_numeric(array_key_first($value))) {
                 foreach ($value as $item) {
                     //参数过滤
                     if (is_array($item['value'])) continue;
@@ -41,7 +41,25 @@ class Base extends Controller
                         }
                     }
                 }
-            } else {
+            } elseif (is_array($value) && !is_numeric(array_key_first($value))){
+                //参数过滤
+                if (is_array($value['value'])) continue;
+                if (is_string($value['value'])) $value['value'] = addslashes($value['value']);
+                if (!isset($value['op']) || empty($value['op'])) $value['op'] = '=';
+                if (!isset($value['where']) || empty($value['where'])) $value['where'] = 'AND';
+
+                $value['op'] = strtoupper($value['op']);
+                $value['where'] = strtoupper($value['where']);
+                //高级筛选
+                if (in_array($value['op'], $ops)) {
+                    if (isset($value['where']) && $value['where'] == 'OR') {
+                        $query->whereOr($key, $value['op'], $value['value']);
+                    } else {
+                        $query->where($key, $value['op'], $value['value']);
+                    }
+                }
+            }
+            else {
                 if (is_array($value)) continue;
                 if (is_string($value)) $value = addslashes($value);
                 $query->where(addslashes($key), $value);
