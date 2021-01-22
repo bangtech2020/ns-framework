@@ -4,8 +4,21 @@ namespace helper;
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
+/**
+ * Class Log
+ * @method LoggerInterface emergency($message, array $context = array()) static
+ * @method LoggerInterface alert($message, array $context = array()) static
+ * @method LoggerInterface critical($message, array $context = array()) static
+ * @method LoggerInterface error($message, array $context = array()) static
+ * @method LoggerInterface warning($message, array $context = array()) static
+ * @method LoggerInterface notice($message, array $context = array()) static
+ * @method LoggerInterface info($message, array $context = array()) static
+ * @method LoggerInterface debug($message, array $context = array()) static
+ * @package helper
+ */
 class Log extends AbstractLogger
 {
     /**
@@ -14,13 +27,6 @@ class Log extends AbstractLogger
      */
     protected $log_dir = '';
 
-    /**
-     * 日志文件名
-     * @var string
-     */
-    protected $log_file_name = '';
-
-
     public function __construct()
     {
         $this->log_dir = ROOT_PATH . '/runtime/log';
@@ -28,6 +34,16 @@ class Log extends AbstractLogger
         if (!is_dir("{$this->log_dir}")) {
             mkdir($this->log_dir, 755, true);
         }
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        if (!Di::getContainer()->has(LoggerInterface::class)){
+            Di::getContainer()->set(LoggerInterface::class,new static());
+        }
+
+        $logger = Di::getContainer()->get(LoggerInterface::class);
+        return call_user_func_array([$logger, $name], $arguments);
     }
 
     public function log($level, $message, array $context = array())
