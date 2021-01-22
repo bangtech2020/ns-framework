@@ -5,10 +5,11 @@ namespace commands\App;
 
 
 use FilesystemIterator;
+use helper\Di;
 use Inhere\Console\IO\Input;
-use Inhere\Console\IO\Output;
 use helper\Console\Command;
 use Phar;
+use Psr\Log\LoggerInterface;
 
 class PackCommand extends Command
 {
@@ -37,6 +38,7 @@ class PackCommand extends Command
         $out_dir = ROOT_PATH."/app/{$author}";// 需要打包的目录
 
         if (!is_dir($dir)){
+            Di::getContainer()->get(LoggerInterface::class)->emergency("Folder [{dir}] does not exist!!!",['dir'=>$dir]);
             $this->output->error("Folder [{$dir}] does not exist!!!");
             return;
         }
@@ -58,6 +60,15 @@ class PackCommand extends Command
         $phar->setSignatureAlgorithm(Phar::SHA512);
         $phar->stopBuffering();
 
-
+        $output->success("Application package Succeed\r\nIdentification : {$identification}\r\nOutput : {$out_dir}/{$identification}.phar");
+        Di::getContainer()
+            ->get(LoggerInterface::class)
+            ->notice("Application package Succeed\r\nIdentification : {identification}\r\nOutput : {out_dir}/{identification}.phar",
+                [
+                    'dir'=>$dir,
+                    'out_dir'=>$out_dir,
+                    'identification'=>$identification
+                ]
+            );
     }
 }

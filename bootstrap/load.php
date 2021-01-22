@@ -7,6 +7,7 @@ namespace bootstrap;
 use helper\Config;
 use helper\Di;
 use interfaces\Console\OutputInterface;
+use Psr\Log\LoggerInterface;
 
 class load
 {
@@ -84,6 +85,7 @@ class load
 
         if (!is_file($phar_path)) {
             try {
+                Di::getContainer()->get(LoggerInterface::class)->error("File not found for [{phar_path}]",['phar_path'=>$phar_path]);
                 Di::getContainer()->get(OutputInterface::class)->warning("File not found for [{$phar_path}]");
             } catch (\Throwable $exception) {
                 var_dump("File not found for [{$phar_path}]");

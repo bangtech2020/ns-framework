@@ -9,6 +9,7 @@ use helper\Db;
 use helper\Di;
 use helper\Env;
 use helper\Event\Listener;
+use helper\Log;
 use helper\WebServer\Route;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
@@ -18,6 +19,7 @@ use interfaces\Console\InputInterface;
 use interfaces\Console\OutputInterface;
 use InvalidArgumentException;
 use Phar;
+use Psr\Log\LoggerInterface;
 
 class app
 {
@@ -59,6 +61,7 @@ class app
     {
         //首先初始化容器
         Di::__make();
+        Di::getContainer()->set(LoggerInterface::class,new Log());
         $this->input = new Input;
         $this->output = new Output;
         Di::getContainer()->set(InputInterface::class,$this->input);
