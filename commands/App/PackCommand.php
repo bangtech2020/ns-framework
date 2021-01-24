@@ -35,7 +35,7 @@ class PackCommand extends Command
         [$author,$identification] =  explode('/',$app_path);
 
         $dir = ROOT_PATH."/app/{$app_path}";// 需要打包的目录
-        $out_dir = ROOT_PATH."/app/{$author}";// 需要打包的目录
+        $out_dir = ROOT_PATH."/app";// 打包的输出目录
 
         if (!is_dir($dir)){
             Di::getContainer()->get(LoggerInterface::class)->emergency("Folder [{dir}] does not exist!!!",['dir'=>$dir]);
@@ -43,12 +43,12 @@ class PackCommand extends Command
             return;
         }
 
-        if (is_file("{$out_dir}/{$identification}.phar")){
-            unlink("{$out_dir}/{$identification}.phar");
+        if (is_file("{$out_dir}/{$author}@{$identification}.phar")){
+            unlink("{$out_dir}/{$author}@{$identification}.phar");
         }
 
         // 包的名称, 注意它不仅仅是一个文件名, 在stub中也会作为入口前缀
-        $phar = new Phar("{$out_dir}/{$identification}.phar", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, "{$identification}.phar");
+        $phar = new Phar("{$out_dir}/{$author}@{$identification}.phar", FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, "{$author}@{$identification}.phar");
 
         // 开始打包
         $phar->startBuffering();
@@ -60,13 +60,14 @@ class PackCommand extends Command
         $phar->setSignatureAlgorithm(Phar::SHA512);
         $phar->stopBuffering();
 
-        $output->success("Application package Succeed\r\nIdentification : {$identification}\r\nOutput : {$out_dir}/{$identification}.phar");
+        $output->success("Application package Succeed\r\nIdentification : {$author}@{$identification}\r\nOutput : {$out_dir}/{$author}@{$identification}.phar");
         Di::getContainer()
             ->get(LoggerInterface::class)
-            ->notice("Application package Succeed\r\nIdentification : {identification}\r\nOutput : {out_dir}/{identification}.phar",
+            ->notice("Application package Succeed\r\nIdentification : {author}@{identification}\r\nOutput : {out_dir}/{author}@{identification}.phar",
                 [
                     'dir'=>$dir,
                     'out_dir'=>$out_dir,
+                    'author'=>$author,
                     'identification'=>$identification
                 ]
             );
