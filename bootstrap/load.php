@@ -71,6 +71,8 @@ class load
         $file_phar[2] = $file_phar[2] . '.phar';
 
         $phar_path = ROOT_PATH . "/{$file_phar[0]}/{$file_phar[1]}/{$file_phar[2]}";
+        $file_phar[1] = "{$file_phar[1]}@{$file_phar[2]}";
+        unset($file_phar[2]);
         $file_phar = implode('/', $file_phar);
 
 
