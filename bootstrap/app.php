@@ -70,7 +70,7 @@ class app
 
         Env::__make(ROOT_PATH . '/.env');
         Config::__make(BASE_PATH . '/config', 'php');
-        load::__make(ROOT_PATH . "/app");
+        autoload::__make(ROOT_PATH . "/app");
         Route::__make();
         Db::__make();
     }
@@ -120,7 +120,7 @@ class app
     public function registerCommand(\Inhere\Console\Application $app,Input $input,Output $output)
     {
         //注册APP命令
-        $extend_commands = load::getCommands();
+        $extend_commands = autoload::getCommands();
 
         foreach ($extend_commands as $id => $extend_command) {
 
@@ -176,7 +176,7 @@ class app
         }
 
         //注册APP事件
-        $extend_events = load::getEvents();
+        $extend_events = autoload::getEvents();
         foreach ($extend_events as $id => $extend_event) {
             [$author,$identification] = explode('/',$id);
             foreach ($extend_event as $event_name => $events) {

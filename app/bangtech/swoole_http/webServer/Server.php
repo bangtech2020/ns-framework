@@ -4,7 +4,7 @@
 namespace app\bangtech\swoole_http\webServer;
 
 
-use bootstrap\load;
+use bootstrap\autoload;
 use helper\Di;
 use helper\WebServer\Route;
 use helper\WebServer\WebService;
