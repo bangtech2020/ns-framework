@@ -22,6 +22,12 @@ class Table
     const TYPE_STRING = 3;
 
     /**
+     * object
+     */
+    const TYPE_OBJECT = 4;
+
+
+    /**
      * @var int
      */
     protected $index = 0;
