@@ -4,7 +4,7 @@
 namespace helper\WebServer;
 
 
-use bootstrap\load;
+use bootstrap\autoload;
 use FastRoute\Dispatcher;
 use helper\Config;
 use helper\Di;
@@ -50,7 +50,7 @@ class Route implements RouteInterface
             }
 
             //扩展应用路由
-            $extend_routes = load::getRoutes();
+            $extend_routes = autoload::getRoutes();
             foreach ($extend_routes as $id => $extend_route) {
                 [$author,$identification] = explode('/',$id);
                 $routeCollector->addGroup("/{$author}/{$identification}/", function (\FastRoute\RouteCollector $r) use ($extend_route,$id,$author,$identification) {

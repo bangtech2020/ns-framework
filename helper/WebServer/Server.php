@@ -3,7 +3,7 @@
 
 namespace helper\WebServer;
 
-use bootstrap\load;
+use bootstrap\autoload;
 use extend\Table\Table;
 use helper\Config;
 use helper\Di;
@@ -68,7 +68,7 @@ class Server
      */
     public function onWorkerStart(\Swoole\Server $server, int $workerId)
     {
-        load::reload();
+        autoload::reload();
         Route::reload();
     }
 

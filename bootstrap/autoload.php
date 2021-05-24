@@ -9,7 +9,7 @@ use helper\Di;
 use interfaces\Console\OutputInterface;
 use Psr\Log\LoggerInterface;
 
-class load
+class autoload
 {
     private static $path = '';
     private static $apps = [];
@@ -100,7 +100,7 @@ class load
     private function __construct($path)
     {
         //注册未定义的APP
-        spl_autoload_register([load::class, 'autoload']);
+        spl_autoload_register([autoload::class, 'autoload']);
         self::$path = $path;
         //清空文件夹
         delectFileAll(ROOT_PATH.'/public');
