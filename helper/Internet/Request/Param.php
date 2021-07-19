@@ -9,7 +9,7 @@ class Param
 
     protected $params = [];
 
-    public function __construct($params)
+    public function __construct(array $params)
     {
         if (!is_array($params)) $params = [];
         $this->params = $params;
