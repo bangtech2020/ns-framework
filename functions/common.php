@@ -1,9 +1,11 @@
 <?php
 
-function function_enabled($function) {
+function function_enabled($function): bool
+{
     $disabled = explode(',', ini_get('disable_functions'));
     return !in_array($function, $disabled);
 }
+
 
 function getPath($path)
 {
@@ -29,21 +31,25 @@ if (!function_exists('array_key_first')) {
     }
 }
 
+
 /**
  * @param string $prefix
  * @return string
  */
-function identification($prefix = ''){
+function identification($prefix = ''): string
+{
     return md5(uniqid($prefix.rand(1000,9999),true));
 }
+
 
 /**
  * @return string
  */
-function get_git_commit()
+function get_git_commit(): string
 {
     return '@git_commit@';
 }
+
 
 /**
  * @return string
@@ -53,13 +59,15 @@ function get_git()
     return '@git@';
 }
 
+
 /**
  * @return string
  */
-function get_datetime()
+function get_datetime(): string
 {
     return '@datetime@';
 }
+
 
 /**
  * 拷贝某文件夹里面的所有文件到另一个文件夹（遍历）
@@ -67,7 +75,8 @@ function get_datetime()
  * @param string $todir 定复制文件的目的地
  * @return bool
  */
-function copyFileAll($dir = "",$todir = ""){
+function copyFileAll($dir = "",$todir = ""): bool
+{
     if (!is_dir($dir)) {
         return false;
     }
@@ -89,23 +98,21 @@ function copyFileAll($dir = "",$todir = ""){
 }
 
 
-
-
 /**
  * 遍历删除文件夹下面的文件
  * @param string $dir 文件夹路径
  * @return bool 删除是否成功的状态
  */
-function delectFileAll($dir){
+function delectFileAll($dir): bool
+{
     if (!is_dir($dir)) return true;
     $dirArray = scandir($dir);
     foreach ($dirArray as $key => $value) {
         if ($value !== '.' && $value !== '..'){
-            if (is_dir($dir.'/'.$value)){
-                delectFileAll($dir.'/'.$value);
-                //rmdir($dir.'/'.$value);
-            }elseif (is_file($dir.'/'.$value)){
-                unlink($dir.'/'.$value);
+            if (is_dir("{$dir}/{$value}")){
+                delectFileAll("{$dir}/{$value}");
+            }elseif (is_file("{$dir}/{$value}")){
+                unlink("{$dir}/{$value}");
             }
         }
     }
@@ -119,7 +126,7 @@ function delectFileAll($dir){
  * @param string $separator
  * @return string
  */
-function un_camelize($camelCaps,$separator='_')
+function un_camelize($camelCaps,$separator='_'): string
 {
     return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
 }
